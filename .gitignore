@@ -1,0 +1,18 @@
+# python
+*.pyc
+
+# Django
+db.sqlite3
+
+# automatic deployment
+fabfile.py
+
+# on server
+static/
+
+# Pycharm IDE files
+.idea/
+
+# mac hidden files
+.DS_Store
+
