@@ -129,7 +129,14 @@ STATIC_URL = '/static/'
 
 # 设置登陆和注销后重定向的位置
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/users/login'
+LOGIN_URL = '/users/login'
+
 
 # 设置开发环境下的邮件发送服务器，生产环境下需要重新配置
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'users.backends.EmailBackend',
+)

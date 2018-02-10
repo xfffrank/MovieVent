@@ -5,6 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>登录</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/mobi.css/dist/mobi.min.css">
     <style>
         .errorlist {
@@ -17,6 +18,7 @@
     <div class="container">
         <div class="flex-center">
             <div class="unit-1-2 unit-1-on-mobile">
+                <h1><a href="{% url 'movies:index' %}">MovieVent</a></h1>
                 <h3>登录</h3>
                 <form class="form" action="{% url 'login' %}" method="post">
                     {% csrf_token %}
@@ -42,3 +44,10 @@
 </div>
 </body>
 </html>
+
+<script type="text/javascript" >
+    $(document).ready(function(){
+        $("#id_username").attr('placeholder', '用户名/邮箱');
+
+    });
+</script>
