@@ -19,5 +19,11 @@ def register(request):
 
 @login_required # 登录状态验证
 def account(request):
-    return render(request, 'users/account_management.html')
+    return render(request, 'users/user_center_p2.html')
+
+def user_center(request):
+    return render(request, 'users/user_center_p1.html')
+
+
+    
 

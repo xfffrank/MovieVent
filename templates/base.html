@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>评分系统首页</title>
+    {% load static %}
+    {% block title %}
+    {% endblock title %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- 新 Bootstrap4 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/movie.css' %}">
+
     {% block style %}
+
     {% endblock style %}
 </head>
 <body>
@@ -20,8 +25,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"> 选电影<span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'movies:pick' %}"> 选电影<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">影评</a>
@@ -29,10 +34,10 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">个人中心</a>
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">用户名</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">个人中心</a>
-                        <a class="dropdown-item" href="{% url 'users:account' %}">帐号管理</a>
+                        <a class="dropdown-item" href="{% url 'users:user' %}">个人中心</a>
+                        <!--<a class="dropdown-item" href="{% url 'users:account' %}">帐号管理</a>-->
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}">退出</a>
                     </div>
@@ -45,12 +50,13 @@
             <form class="form-inline mt-2 mt-md-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="输入电影名字" aria-label="Search">
                 <button class="btn btn-sm btn-outline-secondary" type="submit" style="margin-right:10px">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         class="mx-3">
-                        <circle cx="10.5" cy="10.5" r="7.5"></circle>
-                        <line x1="21" y1="21" x2="15.8" y2="15.8"></line>
-                    </svg>
+                    <!--<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"-->
+                         <!--stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"-->
+                         <!--class="mx-3">-->
+                        <!--<circle cx="10.5" cy="10.5" r="7.5"></circle>-->
+                        <!--<line x1="21" y1="21" x2="15.8" y2="15.8"></line>-->
+                    <!--</svg>-->
+                    🔍
                 </button>
             </form>
             {% if user.is_authenticated %}
@@ -68,8 +74,13 @@
 
 
 
+
+
 </body>
 </html>
+
+{% block script %}
+{% endblock script %}
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>

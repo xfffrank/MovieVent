@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>正在上映</title>
+{% endblock title %}
+
+{% block main %}
+	<div class="container">
+		<h6 class="now_playing" style="padding: 30px 0 0 0;">正在上映</h6>
+		<hr>
+
+		<div class="row test">
+		 	<!-- 每页10 － 12个条目 -->
+
+			{% for movie in movie_list %}
+			<ul class="col-sm-2.4">
+                <div class="accord">
+                    <li class="poster">
+                        <a href="{% url 'movies:detail' movie.id %}">
+                            <img src="{{ movie.poster }}">
+                        </a>
+                    </li>
+                    <li class="title">
+                        <a href="{% url 'movies:detail' movie.id %}">{{ movie.name }}</a>
+                        <strong>{{ movie.rating }}</strong>
+                        <!-- <p class="rating">6.0</p> -->
+                    </li>
+                </div>
+			</ul>
+			{% endfor %}
+
+			<!--<ul class="col-sm-2.4">-->
+			<!--<li class="poster">-->
+				<!--<a href="https://movie.douban.com/subject/26861685/">-->
+					<!--<img src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">-->
+				<!--</a>-->
+			<!--</li>-->
+			<!--<li class="title">-->
+				<!--<a href="">奇迹男孩</a>-->
+				<!--<strong>6.0</strong>-->
+			<!--</li>-->
+			<!--</ul>-->
+
+			<!--<ul class="col-sm-2.4">-->
+			<!--<li class="poster">-->
+				<!--<a href="https://movie.douban.com/subject/26861685/">-->
+					<!--<img src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">-->
+				<!--</a>-->
+			<!--</li>-->
+			<!--<li class="title">-->
+				<!--<a href="">奇迹男孩</a>-->
+				<!--<strong>6.0</strong>-->
+			<!--</li>-->
+			<!--</ul>-->
+
+			<!--<ul class="col-sm-2.4">-->
+			<!--<li class="poster">-->
+				<!--<a href="https://movie.douban.com/subject/26861685/">-->
+					<!--<img id="img_list" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">-->
+				<!--</a>-->
+			<!--</li>-->
+			<!--<li class="title">-->
+				<!--<a href="">奇迹男孩</a>-->
+				<!--<strong>6.0</strong>-->
+			<!--</li>-->
+			<!--</ul>-->
+
+
+
+			<!--<ul class="col-sm-2.4">-->
+			<!--<li class="poster">-->
+				<!--<a href="https://movie.douban.com/subject/26861685/">-->
+					<!--<img id="img_list" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">-->
+				<!--</a>-->
+			<!--</li>-->
+			<!--<li class="title">-->
+				<!--<a href="">奇迹男孩</a>-->
+				<!--<strong>6.0</strong>-->
+			<!--</li>-->
+			<!--</ul>-->
+
+			<!--<ul class="col-sm-2.4">-->
+			<!--<li class="poster">-->
+				<!--<a href="https://movie.douban.com/subject/26861685/">-->
+					<!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
+				<!--</a>-->
+			<!--</li>-->
+			<!--<li class="title">-->
+				<!--<a href="">黑豹</a>-->
+				<!--<strong>6.7</strong>-->
+			<!--</li>-->
+			<!--</ul>-->
+
+			<!--<ul class="col-sm-2.4">-->
+			<!--<li class="poster">-->
+				<!--<a href="https://movie.douban.com/subject/26861685/">-->
+					<!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
+				<!--</a>-->
+			<!--</li>-->
+			<!--<li class="title">-->
+				<!--<a href="">黑豹</a>-->
+				<!--<strong>6.7</strong>-->
+			<!--</li>-->
+			<!--</ul>-->
+
+			<!--<ul class="col-sm-2.4">-->
+			<!--<li class="poster">-->
+				<!--<a href="https://movie.douban.com/subject/26861685/">-->
+					<!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
+				<!--</a>-->
+			<!--</li>-->
+			<!--<li class="title">-->
+				<!--<a href="">黑豹</a>-->
+				<!--<strong>6.7</strong>-->
+			<!--</li>-->
+			<!--</ul>-->
+
+			<!--<ul class="col-sm-2.4">-->
+			<!--<li class="poster">-->
+				<!--<a href="https://movie.douban.com/subject/26861685/">-->
+					<!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
+				<!--</a>-->
+			<!--</li>-->
+			<!--<li class="title">-->
+				<!--<a href="">黑豹</a>-->
+				<!--<strong>6.7</strong>-->
+			<!--</li>-->
+			<!--</ul>-->
+
+			<!--<ul class="col-sm-2.4">-->
+			<!--<li class="poster">-->
+				<!--<a href="https://movie.douban.com/subject/26861685/">-->
+					<!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
+				<!--</a>-->
+			<!--</li>-->
+			<!--<li class="title">-->
+				<!--<a href="">黑豹</a>-->
+				<!--<strong>6.7</strong>-->
+			<!--</li>-->
+			<!--</ul>-->
+
+		</div>
+
+		<div class="footer">
+			<footer>@ 2018 Vent All Rights Reserved</footer>
+		</div>
+	</div>
+{% endblock main %}
+

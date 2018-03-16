@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>{{ movie.name }}(Vent)</title>
+{% endblock title %}
+
+{% block main %}
+	<div class="container">
+		<h3>{{ movie.name }}</h3>   <!--改！-->
+		<div class="row info">
+			<div class="info_p1">
+				<img src="{{ movie.poster }}">
+			</div>
+
+			<div id="info" class="info_p2">
+				<li>导演：{{ movie.director }}</li>
+				<li>编剧：{{ movie.writer }}</li>
+				<li>主演：{{ movie.star }}</li>
+				<li>类型：{{ movie.genre }}</li>
+				<li>制片国家／地区：{{ movie.region }}</li>
+				<li>语言：{{ movie.language }}</li>
+				<li>上映日期：{{ movie.release_time }}</li>
+				<li>片长：{{ movie.duration }}</li>
+				<li>又名：{{ movie.alternate_name }}</li>
+			</div>
+
+			<div id="rating" class="info_p3">
+				<p>Vent 评分</p>
+				<h5>{{ movie.rating }}</h5>
+			</div>
+		</div>
+
+		<div class="myComment">
+			<span>我评价过这部电影</span>
+			<span style="color: grey;">2018-03-14</span>
+			<div class="c_float">
+				<span data-toggle="modal" data-target="#ModalComment">修改</span>
+				<span><a onclick="del()" style="color: grey;">删除</a></span>
+			</div>
+			<p>
+				很喜欢😍
+			</p>
+		</div>
+
+		<h6 style="color: green;">{{ movie.name }}的剧情简介</h6>
+		<p>{{ movie.summary }}</p>
+
+		<!-- <span class="w_review"><a href="">我要写短评</a></span> -->
+		<span class="w_review" data-toggle="modal" data-target="#ModalComment">我要写短评</span>
+
+		<div class="modal fade" id="ModalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">
+							写短评
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form method="post" action="">
+						<div class="modal-body">
+							<!-- 先搜索数据库，若存在评论则返回 -->
+							<textarea name="comment" required></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+							<button type="submit" class="btn btn-primary">保存</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<h6>
+			<span style="color: green;">{{ movie.name }}的短评</span>
+			<span style="font-size: 14px;"> ～ ～ 全部 99 条</span>
+		</h6>
+
+		<p style="font-size: 14px"><a href="">热门</a>／<a href="">最新</a></p>
+
+		<div> <!-- 影评 -->
+			<hr>
+			<div class="review_info">
+				<span style="color: CornflowerBlue;">西楼</span>
+				<span>2018-02-24</span>
+				<span style="float: right;">5 <a href="">有用</a></span>
+			</div>
+			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
+		</div>
+
+		<div> <!-- 影评 -->
+			<hr>
+			<div class="review_info">
+				<span style="color: CornflowerBlue;">西楼</span>
+				<span>2018-02-24</span>
+				<span style="float: right;">5 <a href="">有用</a></span>
+			</div>
+			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
+		</div>
+
+		<div> <!-- 影评 -->
+			<hr>
+			<div style="font-size: 14px;">
+				<span style="color: CornflowerBlue;">西楼</span>
+				<span>2018-02-24</span>
+				<span style="float: right;">5 <a href="">有用</a></span>
+			</div>
+			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
+		</div>
+
+		<div> <!-- 影评 -->
+			<hr>
+			<div style="font-size: 14px;">
+				<span style="color: CornflowerBlue;">西楼</span>
+				<span>2018-02-24</span>
+				<span style="float: right;">5 <a href="">有用</a></span>
+			</div>
+			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
+		</div>
+
+		<div> <!-- 影评 -->
+			<hr>
+			<div style="font-size: 14px;">
+				<span style="color: CornflowerBlue;">西楼</span>
+				<span>2018-02-24</span>
+				<span style="float: right;">5 <a href="">有用</a></span>
+			</div>
+			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
+		</div>
+
+		<div style="text-align: center;" id="pagination"> <!-- 网页导航 -->
+			<span><a href=""><< 首页</a></span>
+			<span><a href=""> < 前页</a></span>
+			<span><a href=""> 后页 ></a></span>
+		</div>
+
+		<div class="footer">
+			<footer>@ 2018 Vent All Rights Reserved</footer>
+		</div>
+
+
+		<!-- <div class="box">
+		  <div class="column">
+		    <span class="item">项目一</span>
+		    <span class="item">项目一</span>
+		  </div>
+		  <div class="column">
+		    <span class="item">项目一</span>
+		    <span class="item">项目一</span>
+		  </div>
+		</div> -->
+	</div>
+{% endblock main %}
+
+
+{% block script %}
+<script type="text/javascript">
+	function del() {
+		var name = window.confirm('真的要删除这条评论？');
+		if (name) {
+			// your url 传递给删除账号的视图函数
+			alert("传递给删除函数");
+		}
+		else {
+			return false;
+		}
+	}
+</script>
+{% endblock script %}

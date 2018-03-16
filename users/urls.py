@@ -5,5 +5,6 @@ app_name = 'users'
 urlpatterns = [
     url('register/', views.register, name='register'),
     url('account_management/', views.account, name='account'),
+    url('user/', views.user_center, name='user'),
 
 ]
