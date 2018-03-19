@@ -211,10 +211,15 @@
 
     </div>
 
-    <div id="pagination"> <!-- 网页导航 -->
-        <span><a href=""><< 首页</a></span>
-        <span><a href=""> < 前页</a></span>
-        <span><a href=""> 后页 ></a></span>
+    <div class="pagination"> <!-- 网页导航 -->
+        <span><a href="{{ request.path }}?tag={{ tag }}&&page=1"><< &laquo;首页</a></span>
+        {% if movie_list.has_previous %}
+            <span><a href="{{ request.path }}?tag={{ tag }}&&page={{ movie_list.previous_page_number }}"> < 前页</a></span>
+        {% endif %}
+
+        {% if movie_list.has_next %}
+            <span><a href="{{ request.path }}?tag={{ tag }}&&page={{ movie_list.next_page_number }}"> 后页 ></a></span>
+        {% endif %}
     </div>
 
     <div class="footer">

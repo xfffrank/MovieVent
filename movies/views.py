@@ -12,8 +12,6 @@ def index(request):
 # class IndexView(generic.DetailView):
 #     template_name = 'index.html'
 
-def pickMovie(request):
-    return render(request, 'movies/pick_movie.html')
 
 def now_playing(request):
     movie_list = Movie.objects.order_by('-release_time')[:20] # 加'－'表示逆序
@@ -29,7 +27,7 @@ def detail(request, movie_id):
     return render(request, 'movies/detail.html', {'movie': movie})
 
 def explore(request):
-    tag = request.GET['tag']
+    tag = request.GET.get('tag', '热门')
 
     if tag == '热门':
         movie_list = Movie.objects.order_by('-heat')[:50]
@@ -45,7 +43,14 @@ def explore(request):
     # paginator
     limit = 15
     paginator = Paginator(movie_list, limit)
+    page = request.GET.get('page')
+    movies = paginator.get_page(page)
 
-    return render(request, 'movies/pick_movie.html', {'movie_list': movie_list})
+    context = {
+        'movie_list': movies,
+        'tag': tag,
+    }
+
+    return render(request, 'movies/pick_movie.html', context)
     # return HttpResponse(tag)
 
