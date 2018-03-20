@@ -1,65 +1,57 @@
+{% extends 'base.html' %}
 
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" type="text/css" href="movie.css">
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-	<title>Ciel</title>
-</head>
-<body>
-	<div class="container">
-		<h4>Ciel</h4>
-		<ul class="nav nav-tabs">
-			<!-- 个人中心对所有人可见，“设置”只对用户本人可见 -->
-			<li class="nav-item">
-				<a href="#" class="nav-link active">评过</a>
-			</li>
-			<li class="nav-item">
-				<a href="#" class="nav-link">账号管理</a>
-			</li>
+{% block title %}
+<title>{{ user.name }}</title>
+{% endblock title %}
+
+{% block main %}
+<div class="container">
+	<h4>{{ user.name }}</h4>
+	<ul class="nav nav-tabs">
+		<!-- 个人中心对所有人可见，“设置”只对用户本人可见 -->
+		<li class="nav-item">
+			<a href="#" class="nav-link active">评过</a>
+		</li>
+		{% if user.is_authenticated %}
+		<li class="nav-item">
+			<a href="#" class="nav-link">账号管理</a>
+		</li>
+		{% endif %}
+	</ul>
+	<br>
+
+	<div class="row test">
+		<ul class="col-sm-2.4">
+		<li class="poster">
+			<a href="https://movie.douban.com/subject/26861685/">
+				<img src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">
+			</a>
+		</li>
+		<li class="title">
+			<a href="">奇迹男孩</a>
+			<strong>6.0</strong>
+		</li>
 		</ul>
-		<br>
 
-		<div class="row test">
-			<ul class="col-sm-2.4">
-			<li class="poster">
-				<a href="https://movie.douban.com/subject/26861685/">
-					<img id="img_list" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">
-				</a>
-			</li>
-			<li class="title">
-				<a href="">奇迹男孩</a>
-				<strong>6.0</strong>
-			</li>
-			</ul>
-			
-			<ul class="col-sm-2.4">
-			<li class="poster">
-				<a href="https://movie.douban.com/subject/26861685/">
-					<img id="img_list" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">
-				</a>
-			</li>
-			<li class="title">
-				<a href="">奇迹男孩</a>
-				<strong>6.0</strong>
-			</li>
-			</ul>
-			
-		</div>
-		
-		<div class="footer">
-			<footer>@ 2018 Vent All Rights Reserved</footer>
-		</div>
+		<ul class="col-sm-2.4">
+		<li class="poster">
+			<a href="https://movie.douban.com/subject/26861685/">
+				<img id="img_list" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">
+			</a>
+		</li>
+		<li class="title">
+			<a href="">奇迹男孩</a>
+			<strong>6.0</strong>
+		</li>
+		</ul>
+
 	</div>
-</body>
-</html>
 
-<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
- 
-<!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
-<script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
- 
-<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
-<script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<div class="footer">
+		<footer>@ 2018 Vent All Rights Reserved</footer>
+	</div>
+</div>
+
+{% endblock main %}
+
+

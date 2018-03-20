@@ -9,75 +9,74 @@
 {% block main %}
 <div class="container">
     <h3>选电影</h3>
+
+
+    <form method="get" id="explore" action="{% url 'movies:explore' %}">
     <div class="tag-list">
-        <!-- <label class="btn btn-secondary active">
-            <input type="radio" name="tag" checked>热门
-        </label>
-        <label class="btn btn-secondary">
-            <input type="radio" name="tag">最新
-        </label> -->
 
-        <form method="get" id="explore" action="{% url 'movies:explore' %}">
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="submit" class="btn btn-secondary " name="tag" value="热门">热门</button>
-                <button type="submit" class="btn btn-secondary" name="tag" value="最新">最新</button>
-                <button type="submit" class="btn btn-secondary" name="tag" value="动作">动作</button>
-                <button type="submit" class="btn btn-secondary" name="tag" value="喜剧">喜剧</button>
-                <button type="submit" class="btn btn-secondary" name="tag" value="爱情">爱情</button>
-                <button type="submit" class="btn btn-secondary" name="tag" value="科幻">科幻</button>
-                <button type="submit" class="btn btn-secondary" name="tag" value="悬疑">悬疑</button>
-                <button type="submit" class="btn btn-secondary" name="tag" value="恐怖">恐怖</button>
+            <!--<div class="btn-group" role="group" aria-label="Basic example">-->
+                <!--<button type="submit" class="btn btn-secondary" name="tag" value="热门">热门</button>-->
+                <!--<button type="submit" class="btn btn-secondary" name="tag" value="最新">最新</button>-->
+                <!--<button type="submit" class="btn btn-secondary active" name="tag" value="动作">动作</button>-->
+                <!--<button type="submit" class="btn btn-secondary" name="tag" value="喜剧">喜剧</button>-->
+                <!--<button type="submit" class="btn btn-secondary" name="tag" value="爱情">爱情</button>-->
+                <!--<button type="submit" class="btn btn-secondary" name="tag" value="科幻">科幻</button>-->
+                <!--<button type="submit" class="btn btn-secondary" name="tag" value="悬疑">悬疑</button>-->
+                <!--<button type="submit" class="btn btn-secondary" name="tag" value="恐怖">恐怖</button>-->
+            <!--</div>-->
+            <div class="btn-group btn-group-toggle" id="tag" data-toggle="buttons">
+                <label class="btn btn-secondary" for="tag1">
+                <input type="radio" name="tag" id="tag1" value="热门"> 热门
+                </label>
+                <label class="btn btn-secondary" for="tag2">
+                <input type="radio" name="tag" id="tag2" value="最新"> 最新
+                </label>
+                <label class="btn btn-secondary" for="tag8">
+                <input type="radio" name="tag" id="tag8" value="动作"> 动作
+                </label>
+                <label class="btn btn-secondary" for="tag3">
+                <input type="radio" name="tag" id="tag3" value="喜剧"> 喜剧
+                </label>
+                <label class="btn btn-secondary" for="tag4">
+                <input type="radio" name="tag" id="tag4" value="爱情"> 爱情
+                </label>
+                <label class="btn btn-secondary" for="tag5">
+                <input type="radio" name="tag" id="tag5" value="科幻"> 科幻
+                </label>
+                <label class="btn btn-secondary" for="tag6">
+                <input type="radio" name="tag" id="tag6" value="悬疑"> 悬疑
+                </label>
+                <label class="btn btn-secondary" for="tag7">
+                <input type="radio" name="tag" id="tag7" value="恐怖"> 恐怖
+                </label>
             </div>
-        </form>
 
-        <!--<form method="get" id="explore" action="{% url 'movies:pick' %}">-->
-        <!--<div class="btn-group btn-group-toggle" data-toggle="buttons">-->
-        <!--<label class="btn btn-secondary active">-->
-        <!--<input type="radio" name="tag"  autocomplete="off" value="热门" checked> 热门-->
-        <!--</label>-->
-        <!--<label class="btn btn-secondary">-->
-        <!--<input type="radio" name="tag" value="最新" autocomplete="off"> 最新-->
-        <!--</label>-->
-        <!--<label class="btn btn-secondary" onclick="explore_by_tag()">-->
-        <!--<input type="radio" name="tag" value="动作" autocomplete="off"> 动作-->
-        <!--</label>-->
-        <!--<label class="btn btn-secondary" onclick="explore_by_tag()">-->
-        <!--<input type="radio" name="tag" value="喜剧" autocomplete="off"> 喜剧-->
-        <!--</label>-->
-        <!--<label class="btn btn-secondary">-->
-        <!--<input type="radio" name="tag" value="爱情" autocomplete="off"> 爱情-->
-        <!--</label>-->
-        <!--<label class="btn btn-secondary">-->
-        <!--<input type="radio" name="tag" value="科幻" autocomplete="off"> 科幻-->
-        <!--</label>-->
-        <!--<label class="btn btn-secondary">-->
-        <!--<input type="radio" name="tag" value="悬疑" autocomplete="off"> 悬疑-->
-        <!--</label>-->
-        <!--<label class="btn btn-secondary">-->
-        <!--<input type="radio" name="tag" value="恐怖" autocomplete="off"> 恐怖-->
-        <!--</label>-->
-        <!--</div>-->
-        <!--</form>-->
 
         <hr>
     </div>
 
     <div class="sort">
-
-        <input type="radio" name="sort" value="recommend" checked="checked">
-        <label>
+        <label for="option1">
+            <input type="radio"  id="option1" name="sort" value="recommend">
             按热度排序
         </label>
 
-        <input type="radio" name="sort" value="time">
-        <label>
+
+        <label for="option2">
+            <input type="radio" id="option2" name="sort" value="time">
             按时间排序
         </label>
-        <input type="radio" name="sort" value="rank">
-        <label>
+
+        <label for="option3">
+            <input type="radio" id="option3" name="sort" value="rank">
             按评价排序
         </label>
+
+        <button type="submit">提交</button>
+
+
     </div>
+    </form>
 
     <div class="row test">
         <!-- 每页10 － 12个条目 -->
@@ -100,125 +99,17 @@
         {% endfor %}
 
 
-        <!--<ul class="col-sm-2.4">-->
-        <!--<li class="poster">-->
-        <!--<a href="https://movie.douban.com/subject/26861685/">-->
-        <!--<img id="img_list" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="title">-->
-        <!--<a href="">奇迹男孩</a>-->
-        <!--<strong>6.0</strong>-->
-        <!--</li>-->
-        <!--</ul>-->
-
-        <!--<ul class="col-sm-2.4">-->
-        <!--<li class="poster">-->
-        <!--<a href="https://movie.douban.com/subject/26861685/">-->
-        <!--<img id="img_list" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="title">-->
-        <!--<a href="">奇迹男孩</a>-->
-        <!--<strong>6.0</strong>-->
-        <!--</li>-->
-        <!--</ul>-->
-
-        <!--<ul class="col-sm-2.4">-->
-        <!--<li class="poster">-->
-        <!--<a href="https://movie.douban.com/subject/26861685/">-->
-        <!--<img id="img_list" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2507709428.webp">-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="title">-->
-        <!--<a href="">奇迹男孩</a>-->
-        <!--<strong>6.0</strong>-->
-        <!--</li>-->
-        <!--</ul>-->
-
-
-        <!--<ul class="col-sm-2.4">-->
-        <!--<li class="poster">-->
-        <!--<a href="https://movie.douban.com/subject/26861685/">-->
-        <!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="title">-->
-        <!--<a href="">黑豹</a>-->
-        <!--<strong>6.7</strong>-->
-        <!--</li>-->
-        <!--</ul>-->
-
-        <!--<ul class="col-sm-2.4">-->
-        <!--<li class="poster">-->
-        <!--<a href="https://movie.douban.com/subject/26861685/">-->
-        <!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="title">-->
-        <!--<a href="">黑豹</a>-->
-        <!--<strong>6.7</strong>-->
-        <!--</li>-->
-        <!--</ul>-->
-
-        <!--<ul class="col-sm-2.4">-->
-        <!--<li class="poster">-->
-        <!--<a href="https://movie.douban.com/subject/26861685/">-->
-        <!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="title">-->
-        <!--<a href="">黑豹</a>-->
-        <!--<strong>6.7</strong>-->
-        <!--</li>-->
-        <!--</ul>-->
-
-        <!--<ul class="col-sm-2.4">-->
-        <!--<li class="poster">-->
-        <!--<a href="https://movie.douban.com/subject/26861685/">-->
-        <!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="title">-->
-        <!--<a href="">黑豹</a>-->
-        <!--<strong>6.7</strong>-->
-        <!--</li>-->
-        <!--</ul>-->
-
-        <!--<ul class="col-sm-2.4">-->
-        <!--<li class="poster">-->
-        <!--<a href="https://movie.douban.com/subject/26861685/">-->
-        <!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="title">-->
-        <!--<a href="">黑豹</a>-->
-        <!--<strong>6.7</strong>-->
-        <!--</li>-->
-        <!--</ul>-->
-
-        <!--<ul class="col-sm-2.4">-->
-        <!--<li class="poster">-->
-        <!--<a href="https://movie.douban.com/subject/26861685/">-->
-        <!--<img id="img_list" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="title">-->
-        <!--<a href="">黑豹</a>-->
-        <!--<strong>6.7</strong>-->
-        <!--</li>-->
-        <!--</ul>-->
 
     </div>
 
     <div class="pagination"> <!-- 网页导航 -->
-        <span><a href="{{ request.path }}?tag={{ tag }}&&page=1"><< &laquo;首页</a></span>
+        <span><a href="?tag={{ tag }}&page=1"> &laquo;首页</a></span>
         {% if movie_list.has_previous %}
-            <span><a href="{{ request.path }}?tag={{ tag }}&&page={{ movie_list.previous_page_number }}"> < 前页</a></span>
+            <span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ movie_list.previous_page_number }}"> < 前页</a></span>
         {% endif %}
 
         {% if movie_list.has_next %}
-            <span><a href="{{ request.path }}?tag={{ tag }}&&page={{ movie_list.next_page_number }}"> 后页 ></a></span>
+            <span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ movie_list.next_page_number }}"> 后页 ></a></span>
         {% endif %}
     </div>
 
@@ -230,9 +121,20 @@
 
 {% block script %}
 <script type="text/javascript">
-	function explore_by_tag() {
-		document.getElementById("explore").submit();
-	}
+/*
+$(document).ready(function(){
+    $(".sort label").click(function(){
+        $("#explore").submit();
 
+    });
+
+    $("#tag label").click(function(){
+
+        $("#explore").submit();
+
+    });
+
+});
+*/
 </script>
 {% endblock script %}
