@@ -1,28 +1,28 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>{{ user.name }}</title>
+<title>{{ user.username }}</title>
 {% endblock title %}
 
 {% block main %}
 <div class="container">
-    <h4>{{ user.name }}</h4>
+    <h4>{{ user.username }}</h4>
     <ul class="nav nav-tabs">
         <!-- 个人中心对所有人可见，“设置”只对用户本人可见 -->
         <li class="nav-item">
-            <a href="#" class="nav-link">评过</a>
+            <a href="{% url 'users:user_center' user.id %}" class="nav-link">评过</a>
         </li>
 
         {% if user.is_authenticated %}
 		<li class="nav-item">
-			<a href="#" class="nav-link">账号管理</a>
+			<a href="#" class="nav-link active">账号管理</a>
 		</li>
 		{% endif %}
     </ul>
     <br>
 
     <div>
-        <button type="button" class="btn btn-info btn-sm" type="submit">更改密码</button>
+        <button type="button" class="btn btn-info btn-sm"><a href="{% url 'password_change' %}" style="color: white;">更改密码</a></button>
         <button type="button" class="btn btn-danger btn-sm" onclick="del()">删除账号</button>
     </div>
 

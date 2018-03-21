@@ -129,14 +129,26 @@ STATIC_URL = '/static/'
 
 # 设置登陆和注销后重定向的位置
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_REDIRECT_URL = '/users/login'
-LOGIN_URL = '/users/login'
+LOGIN_REDIRECT_URL = 'login/'
+LOGIN_URL = 'login/'
 
 
 # 设置开发环境下的邮件发送服务器，生产环境下需要重新配置
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'm15211180180@163.com'
+EMAIL_HOST_PASSWORD = 'xf5797877'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'users.backends.EmailBackend',
 )
+
+# superuser: Vent
+# passwd: xf5797877

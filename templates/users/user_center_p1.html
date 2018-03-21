@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>{{ user.name }}</title>
+<title>{{ username }}</title>
 {% endblock title %}
 
 {% block main %}
 <div class="container">
-	<h4>{{ user.name }}</h4>
+	<h4>{{ username }}</h4>
 	<ul class="nav nav-tabs">
 		<!-- 个人中心对所有人可见，“设置”只对用户本人可见 -->
 		<li class="nav-item">
 			<a href="#" class="nav-link active">评过</a>
 		</li>
+
 		{% if user.is_authenticated %}
 		<li class="nav-item">
-			<a href="#" class="nav-link">账号管理</a>
+			<a href="{% url 'users:account' %}" class="nav-link">账号管理</a>
 		</li>
 		{% endif %}
 	</ul>
