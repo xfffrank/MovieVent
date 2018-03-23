@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 # Create your models here.
 class Movie(models.Model):
@@ -22,10 +23,28 @@ class Movie(models.Model):
     heat = models.IntegerField(default=0)
 
 
-class comment(models.Model):
+# class CommentManager(models.Manager):
+#     def create_comment(self, user_id, movie_id, text, thumb_ups):
+#
+#         comment = self.create(user_id=user_id, movie_id=movie_id, text=text, thumb_ups=thumb_ups)
+#         return comment
+
+class Comment(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    time = models.DateTimeField()
-    text = models.TextField()
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    time = models.DateTimeField(auto_now=True)
+    text = models.TextField()
     thumb_ups = models.IntegerField(default=0)
+
+    # objects = CommentManager()
+    #
+    # @classmethod
+    # def create(cls, user_id, movie_id, text, thumb_ups):
+    #     user = User.objects.get(id=user_id)
+    #
+    #     comment = cls(user_id=user, movie_id=movie_id, text=text, thumb_ups=thumb_ups)
+    #     return comment
+
+
+
 
