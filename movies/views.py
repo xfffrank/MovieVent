@@ -26,7 +26,22 @@ def now_playing(request):
 
 
 def detail(request, movie_id):
+    # print(request.user)
+    current_user = request.user
+
     movie = get_object_or_404(Movie, pk=movie_id)
+
+    has_commented = False
+    try:
+        my_comment = Comment.objects.get(movie_id=movie, user_id=current_user)
+        has_commented =True
+    except:
+        pass
+    else:
+        pass
+    finally:
+        print(has_commented)
+
 
     sort = request.GET.get('sort')
     if sort == 'votes':
@@ -43,7 +58,8 @@ def detail(request, movie_id):
         'movie': movie,
         'comment_set': comment_set,
         'form': form,
-        # 'has_commented': has_commented,
+        'has_commented': has_commented,
+        'my_comment': my_comment,
     }
 
     return render(request, 'movies/detail.html', context)

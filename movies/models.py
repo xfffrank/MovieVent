@@ -36,7 +36,7 @@ class CommentManager(models.Manager):
 class Comment(models.Model):
 
     def __str__(self):
-        return self.movie_id
+        return self.text[:10]
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)

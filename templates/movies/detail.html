@@ -32,14 +32,15 @@
 
         {% if has_commented == True %}
 		<div class="myComment">
+
 			<span>我评价过这部电影</span>
-			<span style="color: grey;">2018-03-14</span>
+			<span style="color: grey;">{{ my_comment.time }}</span>
 			<div class="c_float">
 				<span data-toggle="modal" data-target="#ModalComment">修改</span>
 				<span><a onclick="del()" style="color: grey;">删除</a></span>
 			</div>
 			<p>
-				很喜欢😍
+				{{ my_comment.text }}
 			</p>
 		</div>
         {% endif %}
