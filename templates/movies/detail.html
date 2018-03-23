@@ -46,9 +46,11 @@
 		<p>{{ movie.summary }}</p>
 
 		<!-- <span class="w_review"><a href="">我要写短评</a></span> -->
-		<span class="w_review" data-toggle="modal" data-target="#ModalComment">我要写短评</span>
+		<span class="w_review" data-toggle="modal" data-target="#Comment" role="button">
+            我要写短评
+        </span>
 
-		<div class="modal fade" id="ModalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal fade" id="Comment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -81,57 +83,24 @@
 			<span style="font-size: 14px;"> ～ ～ 全部 99 条</span>
 		</h6>
 
-		<p style="font-size: 14px"><a href="">热门</a>／<a href="">最新</a></p>
+		<p style="font-size: 14px">
+            <a href="{% url 'movies:detail' movie.id %}?sort=votes">热门</a>
+            ／
+            <a href="{% url 'movies:detail' movie.id %}?sort=time">最新</a>
+        </p>
 
+		{% for comment in comment_set %}
 		<div> <!-- 影评 -->
 			<hr>
 			<div class="review_info">
-				<span style="color: CornflowerBlue;">西楼</span>
-				<span>2018-02-24</span>
-				<span style="float: right;">5 <a href="">有用</a></span>
+				<span style="color: CornflowerBlue;">{{ comment.user_id.username }}</span>
+				<span>{{ comment.time }}</span>
+				<span style="float: right;">{{ comment.thumb_ups }}<a href="">有用</a></span>
 			</div>
-			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
+			<p>{{ comment.text }}</p>
 		</div>
+        {% endfor %}
 
-		<div> <!-- 影评 -->
-			<hr>
-			<div class="review_info">
-				<span style="color: CornflowerBlue;">西楼</span>
-				<span>2018-02-24</span>
-				<span style="float: right;">5 <a href="">有用</a></span>
-			</div>
-			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
-		</div>
-
-		<div> <!-- 影评 -->
-			<hr>
-			<div style="font-size: 14px;">
-				<span style="color: CornflowerBlue;">西楼</span>
-				<span>2018-02-24</span>
-				<span style="float: right;">5 <a href="">有用</a></span>
-			</div>
-			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
-		</div>
-
-		<div> <!-- 影评 -->
-			<hr>
-			<div style="font-size: 14px;">
-				<span style="color: CornflowerBlue;">西楼</span>
-				<span>2018-02-24</span>
-				<span style="float: right;">5 <a href="">有用</a></span>
-			</div>
-			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
-		</div>
-
-		<div> <!-- 影评 -->
-			<hr>
-			<div style="font-size: 14px;">
-				<span style="color: CornflowerBlue;">西楼</span>
-				<span>2018-02-24</span>
-				<span style="float: right;">5 <a href="">有用</a></span>
-			</div>
-			<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
-		</div>
 
 		<div style="text-align: center;" id="pagination"> <!-- 网页导航 -->
 			<span><a href=""><< 首页</a></span>
@@ -143,17 +112,6 @@
 			<footer>@ 2018 Vent All Rights Reserved</footer>
 		</div>
 
-
-		<!-- <div class="box">
-		  <div class="column">
-		    <span class="item">项目一</span>
-		    <span class="item">项目一</span>
-		  </div>
-		  <div class="column">
-		    <span class="item">项目一</span>
-		    <span class="item">项目一</span>
-		  </div>
-		</div> -->
 	</div>
 {% endblock main %}
 

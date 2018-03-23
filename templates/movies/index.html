@@ -30,7 +30,7 @@
 			<ul class="col-sm-2.4">
                 <div class="accord">
                     <li class="poster">
-                        <a href="{% url 'movies:detail' movie.id %}">
+                        <a href="{% url 'movies:detail' movie.id %}?sort=votes">
                             <img src="{{ movie.poster }}">
                         </a>
                     </li>

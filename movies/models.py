@@ -30,6 +30,10 @@ class Movie(models.Model):
 #         return comment
 
 class Comment(models.Model):
+
+    def __str__(self):
+        return self.movie_id
+
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now=True)

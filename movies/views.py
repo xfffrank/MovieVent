@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Movie
+from .models import Movie, Comment
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import re
 from django.views import generic
@@ -23,9 +23,23 @@ def now_playing(request):
     return render(request, 'movies/now_playing.html', {'movie_list': movie_list})
 
 def detail(request, movie_id):
-    movie = get_object_or_404(Movie, pk=movie_id)
 
-    return render(request, 'movies/detail.html', {'movie': movie})
+    movie = get_object_or_404(Movie, pk=movie_id)
+    comment_set = movie.comment_set.all()[:20]
+
+    sort = request.GET.get('sort')
+    if sort == 'votes':
+        comment_set = sorted(comment_set, key=lambda m: m.thumb_ups, reverse=True)
+    elif sort == 'time':
+        comment_set = sorted(comment_set, key=lambda m:m.time, reverse=True)
+
+
+    context = {
+        'movie': movie,
+        'comment_set': comment_set,
+    }
+
+    return render(request, 'movies/detail.html', context)
 
 def explore(request):
 
