@@ -9,5 +9,6 @@ urlpatterns = [
     path('now_playing', views.now_playing, name='now_playing'),
     # path('subject/<int: >', views.detail, name='detail'),
     path('subject/<int:movie_id>', views.detail, name='detail'),
-
+    path('subject/<int:movie_id>/post_comment', views.post_comment, name='post_comment'),
+    path('subject/<int:movie_id>/comments', views.all_comments, name='all_comments')
 ]

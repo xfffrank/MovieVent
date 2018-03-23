@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>{{ movie.name }} 短评</title>
+{% endblock title %}
+
+
+{% block main %}
+<div class="container">
+    <h3>{{ movie.name }} 短评</h3>
+    <div style="padding: 0px 0px 10px 0px;">
+        <a href="{{ movie.get_absolute_url }}" style=" color: green;">返回电影详情</a>
+    </div>
+
+    <div class="modal fade" id="Comment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                        写短评
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{% url 'movies:post_comment' movie.id %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <!-- 先搜索数据库，若存在评论则返回 -->
+                        <!--<textarea name="comment" required></textarea>-->
+                        {{ form.text }}
+                        {{ form.text.errors }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <span style="font-size: 15px"><a href="{% url 'movies:all_comments' movie.id %}?sort=votes">热门</a>／<a
+            href="{% url 'movies:all_comments' movie.id %}?sort=time">最新</a></span>
+    <span class="w_review" data-toggle="modal" data-target="#Comment">我要写短评</span>
+    <hr>
+
+    {% for comment in comment_set %}
+    <div> <!-- 影评 -->
+        <div class="review_info">
+            <span style="color: CornflowerBlue;">{{ comment.user_id.username }}</span>
+            <span>{{ comment.time }}</span>
+            <span style="float: right;">{{ comment.thumb_ups }}<a href="">有用</a></span>
+        </div>
+        <p>{{ comment.text }}</p>
+        <hr>
+    </div>
+    {% endfor %}
+
+
+    <div style="text-align: center; padding: 30px;"> <!-- 网页导航 -->
+        <span><a href=""><< 首页</a></span>
+        <span><a href=""> < 前页</a></span>
+        <span><a href=""> 后页 ></a></span>
+    </div>
+
+    <div class="footer">
+        <footer>@ 2018 Vent All Rights Reserved</footer>
+    </div>
+</div>
+
+{% endblock main %}

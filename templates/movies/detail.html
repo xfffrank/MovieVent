@@ -30,6 +30,7 @@
 			</div>
 		</div>
 
+        {% if has_commented == True %}
 		<div class="myComment">
 			<span>我评价过这部电影</span>
 			<span style="color: grey;">2018-03-14</span>
@@ -41,12 +42,13 @@
 				很喜欢😍
 			</p>
 		</div>
+        {% endif %}
 
 		<h6 style="color: green;">{{ movie.name }}的剧情简介</h6>
 		<p>{{ movie.summary }}</p>
 
-		<!-- <span class="w_review"><a href="">我要写短评</a></span> -->
-		<span class="w_review" data-toggle="modal" data-target="#Comment" role="button">
+
+        <span class="w_review" data-toggle="modal" data-target="#Comment" role="button">
             我要写短评
         </span>
 
@@ -61,10 +63,13 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form method="post" action="">
+					<form method="post" action="{% url 'movies:post_comment' movie.id %}">
+                        {% csrf_token %}
 						<div class="modal-body">
 							<!-- 先搜索数据库，若存在评论则返回 -->
-							<textarea name="comment" required></textarea>
+							<!--<textarea name="comment" required></textarea>-->
+                            {{ form.text }}
+                            {{ form.text.errors }}
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
@@ -80,7 +85,7 @@
 
 		<h6>
 			<span style="color: green;">{{ movie.name }}的短评</span>
-			<span style="font-size: 14px;"> ～ ～ 全部 99 条</span>
+			<span style="font-size: 14px;"> ～ ～ <a href="{% url 'movies:all_comments' movie.id %}">全部 {{ movie.comment_set.count }} 条</a></span>
 		</h6>
 
 		<p style="font-size: 14px">
@@ -100,13 +105,7 @@
 			<p>{{ comment.text }}</p>
 		</div>
         {% endfor %}
-
-
-		<div style="text-align: center;" id="pagination"> <!-- 网页导航 -->
-			<span><a href=""><< 首页</a></span>
-			<span><a href=""> < 前页</a></span>
-			<span><a href=""> 后页 ></a></span>
-		</div>
+        <p class="more"><a href="{% url 'movies:all_comments' movie.id %}"> > 更多短评</a></p>
 
 		<div class="footer">
 			<footer>@ 2018 Vent All Rights Reserved</footer>

@@ -30,12 +30,15 @@
 			<ul class="col-sm-2.4">
                 <div class="accord">
                     <li class="poster">
-                        <a href="{% url 'movies:detail' movie.id %}?sort=votes">
+                        <!--<a href="{% url 'movies:detail' movie.id %}?sort=votes">-->
+                            <!--<img src="{{ movie.poster }}">-->
+                        <!--</a>-->
+						<a href="{{ movie.get_absolute_url }}">
                             <img src="{{ movie.poster }}">
                         </a>
                     </li>
                     <li class="title">
-                        <a href="{% url 'movies:detail' movie.id %}">{{ movie.name }}</a>
+                        <a href="{{ movie.get_absolute_url }}">{{ movie.name }}</a>
                         <strong>{{ movie.rating }}</strong>
                         <!-- <p class="rating">6.0</p> -->
                     </li>
@@ -62,12 +65,12 @@
 			<ul class="col-sm-2.4">
                 <div class="accord">
                     <li class="poster">
-                        <a href="{% url 'movies:detail' movie.id %}">
+                        <a href="{{ movie.get_absolute_url }}">
                             <img src="{{ movie.poster }}">
                         </a>
                     </li>
                     <li class="title">
-                        <a href="{% url 'movies:detail' movie.id %}">{{ movie.name }}</a>
+                        <a href="{{ movie.get_absolute_url }}">{{ movie.name }}</a>
                         <strong>{{ movie.rating }}</strong>
                         <!-- <p class="rating">6.0</p> -->
                     </li>
@@ -95,12 +98,12 @@
 			<ul class="col-sm-2.4">
                 <div class="accord">
                     <li class="poster">
-                        <a href="{% url 'movies:detail' movie.id %}">
+                        <a href="{{ movie.get_absolute_url }}">
                             <img src="{{ movie.poster }}">
                         </a>
                     </li>
                     <li class="title">
-                        <a href="{% url 'movies:detail' movie.id %}">{{ movie.name }}</a>
+                        <a href="{{ movie.get_absolute_url }}">{{ movie.name }}</a>
                         <strong>{{ movie.rating }}</strong>
                         <!-- <p class="rating">6.0</p> -->
                     </li>

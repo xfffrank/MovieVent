@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Movie, Comment
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from .forms import CommentForm
+from django.conf import settings
 import re
 from django.views import generic
 # Create your views here.
@@ -22,24 +24,58 @@ def now_playing(request):
 
     return render(request, 'movies/now_playing.html', {'movie_list': movie_list})
 
-def detail(request, movie_id):
 
+def detail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
-    comment_set = movie.comment_set.all()[:20]
 
     sort = request.GET.get('sort')
     if sort == 'votes':
-        comment_set = sorted(comment_set, key=lambda m: m.thumb_ups, reverse=True)
+        # comment_set = sorted(comment_set, key=lambda m: m.thumb_ups, reverse=True)
+        comment_set = movie.comment_set.order_by('-thumb_ups')[:5]
     elif sort == 'time':
-        comment_set = sorted(comment_set, key=lambda m:m.time, reverse=True)
+        comment_set = movie.comment_set.order_by('-time')[:5]
+    else: # 默认情况
+        comment_set = movie.comment_set.order_by('-thumb_ups')[:5]
 
+    form = CommentForm()
 
     context = {
         'movie': movie,
         'comment_set': comment_set,
+        'form': form,
+        # 'has_commented': has_commented,
     }
 
     return render(request, 'movies/detail.html', context)
+
+
+def post_comment(request, movie_id):
+    if not request.user.is_authenticated:
+        return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
+
+    movie = get_object_or_404(Movie, pk=movie_id)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            # print(form.cleaned_data['content'], username)
+            comment = form.save(commit=False)
+            comment.user_id = request.user
+            comment.movie_id = movie
+            comment.save()
+            # request.session['has_commented'] = True
+            return redirect(movie)
+        else:
+            comment_set = movie.comment_set.order_by('-thumb_ups')[:5]
+            context = {
+                'movie': movie,
+                'comment_set': comment_set,
+                'form': form,
+            }
+            return render(request, 'movies/detail.html', context)
+
+    return redirect(movie)
 
 def explore(request):
 
@@ -131,6 +167,28 @@ def index(request):
 
 
     return render(request, 'movies/index.html', context)
+
+def all_comments(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+
+    sort = request.GET.get('sort')
+
+    if sort == 'votes':
+        comment_set = movie.comment_set.order_by('-thumb_ups')[:20]
+    elif sort == 'time':
+        comment_set = movie.comment_set.order_by('-time')[:20]
+    else:
+        comment_set = movie.comment_set.order_by('-thumb_ups')[:20]
+
+    form = CommentForm()
+
+    context = {
+        'movie': movie,
+        'comment_set': comment_set,
+        'form': form,
+    }
+
+    return render(request, 'reviews/all_comments.html', context)
 
 
 
