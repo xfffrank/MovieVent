@@ -24,7 +24,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="post" action="{% url 'movies:post_comment' movie.id %}">
+                <form method="post" action="{% url 'movies:all_comments' movie.id %}">
                     {% csrf_token %}
                     <div class="modal-body">
                         <!-- 先搜索数据库，若存在评论则返回 -->

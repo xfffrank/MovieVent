@@ -29,7 +29,7 @@
                     <a class="nav-link" href="{% url 'movies:explore' %}"> 选电影<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">影评</a>
+                    <a class="nav-link" href="{% url 'movies:reviews' %}">影评</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">

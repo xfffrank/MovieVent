@@ -6,111 +6,48 @@
 
 {% block main %}
 <div class="container">
-	<h3>Vent 最受欢迎的影评</h3>
-	<div id="top_reviews">
-		<a href=""><span>最受欢迎的 ／ </span></a>
-		<a href=""><span>新片评论</span></a>
+    <h3>Vent 最受欢迎的影评</h3>
+    <div id="top_reviews">
+        <a href="{% url 'movies:reviews' %}?sort=votes"><span>最受欢迎的 ／ </span></a>
+        <a href="{% url 'movies:reviews' %}?sort=time"><span>新片评论</span></a>
 
-	</div>
+    </div>
 
-	<!-- 每页显示二十条 -->
-	<div>
-		<hr>
-		<div class="row test">
-			<div class="review_p1">
-				<a href="https://movie.douban.com/subject/6390825/">
-						<img class="thumb_img" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">
-				</a>
+    <!-- 每页显示二十条 -->
+    {% for comment in comment_set %}
+    <div>
+        <hr>
+        <div class="row test">
+            <div class="review_p1">
+                <a href="{{ comment.movie_id.get_absolute_url }}">
+                    <img class="thumb_img"
+                         src="{{ comment.movie_id.poster }}">
+                </a>
+            </div>
 
-			</div>
+            <div class="review_p2">
+                <div class="review_info">
+                    <span><a href="{% url 'users:homepage' comment.user_id.id %}">{{ comment.user_id.username }}</a></span>
+                    <span>{{ comment.time }}</span>
+                    <span class="r_float">{{ comment.thumb_ups }} 有用</span>
+                </div>
+                <p>{{ comment.text }}</p>
+            </div>
 
-			<div class="review_p2">
-				<div class="review_info">
-					<span>架空</span>
-					<span>2018-03-10 01:23:57</span>
-					<span class="r_float">9 有用</span>
-				</div>
-				<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
-			</div>
+        </div>
+    </div>
+    {% endfor %}
 
-		</div>
-	</div>
 
-	<div>
-		<hr>
-		<div class="row test">
-			<div class="review_p1">
-				<a href="https://movie.douban.com/subject/6390825/">
-						<img class="thumb_img" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">
-				</a>
+    <div class="pagination"> <!-- 网页导航 -->
+        <span><a href=""><< 首页</a></span>
+        <span><a href=""> < 前页</a></span>
+        <span><a href=""> 后页 ></a></span>
+    </div>
 
-			</div>
-
-			<div class="review_p2">
-				<div class="review_info">
-					<span>架空</span>
-					<span>2018-03-10 01:23:57</span>
-					<span class="r_float">9 有用</span>
-				</div>
-				<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
-			</div>
-
-		</div>
-	</div>
-
-	<div>
-		<hr>
-		<div class="row test">
-			<div class="review_p1">
-				<a href="https://movie.douban.com/subject/6390825/">
-						<img class="thumb_img" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">
-				</a>
-
-			</div>
-
-			<div class="review_p2">
-				<div class="review_info">
-					<span>架空</span>
-					<span>2018-03-10 01:23:57</span>
-					<span class="r_float">9 有用</span>
-				</div>
-				<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
-			</div>
-
-		</div>
-	</div>
-
-	<div>
-		<hr>
-		<div class="row test">
-			<div class="review_p1">
-				<a href="https://movie.douban.com/subject/6390825/">
-						<img class="thumb_img" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2512123434.webp">
-				</a>
-
-			</div>
-
-			<div class="review_p2">
-				<div class="review_info">
-					<span>架空</span>
-					<span>2018-03-10 01:23:57</span>
-					<span class="r_float">9 有用</span>
-				</div>
-				<p>记忆这块幕布拔掉电源就空无一物，生活这本小说读了结尾就忘了开头。娶了你才知道梅尔维尔和海明威写不出的人生，嫁给你才明白吉普森或白兰度媲美不过的深情。你不在意我放屁，在意初恋穿的平角内裤；我不介意你尿床，介意隐瞒的风流。房车穿山，药剂穿肠，48年前在浴缸里我就知道，我在意的也只有你。</p>
-			</div>
-
-		</div>
-	</div>
-
-	<div class="pagination"> <!-- 网页导航 -->
-		<span><a href=""><< 首页</a></span>
-		<span><a href=""> < 前页</a></span>
-		<span><a href=""> 后页 ></a></span>
-	</div>
-
-	<div class="footer">
-		<footer>@ 2018 Vent All Rights Reserved</footer>
-	</div>
+    <div class="footer">
+        <footer>@ 2018 Vent All Rights Reserved</footer>
+    </div>
 
 </div>
 {% endblock main %}

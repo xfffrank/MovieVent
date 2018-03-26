@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Movie, Comment
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .forms import CommentForm
 from django.conf import settings
+from django.http import HttpResponseRedirect
 import re
 from django.views import generic
 # Create your views here.
@@ -34,7 +35,7 @@ def detail(request, movie_id):
 
     has_commented = False
     try:
-        # 让用户只能提交一条评论 TO-DO
+        # 查询数据库是否存在评论记录
         my_comment = Comment.objects.get(movie_id=movie, user_id=current_user)
     except Exception as e:
         print(e) # test
@@ -212,10 +213,15 @@ def index(request):
 
 
 def all_comments(request, movie_id):
+
+    if not request.user.is_authenticated: # 检查评论权限
+        return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
+
+    current_user = request.user
     movie = get_object_or_404(Movie, pk=movie_id)
 
+    # 排序方式
     sort = request.GET.get('sort')
-
     if sort == 'votes':
         comment_set = movie.comment_set.order_by('-thumb_ups')[:20]
     elif sort == 'time':
@@ -223,15 +229,61 @@ def all_comments(request, movie_id):
     else:
         comment_set = movie.comment_set.order_by('-thumb_ups')[:20]
 
-    form = CommentForm()
+    if request.method == 'POST':
+        try: # 验证是否存在当前用户对这部电影的评论
+            my_comment = Comment.objects.get(user_id=current_user, movie_id=movie.id)
+        except:
+            form = CommentForm(request.POST)
+        else:
+            form = CommentForm(request.POST, instance=my_comment)
+
+        if form.is_valid():
+            # print(form.cleaned_data['content'], username)
+            comment = form.save(commit=False)
+            comment.user_id = request.user
+            comment.movie_id = movie
+            comment.save()
+            # print("评论成功")
+            return HttpResponseRedirect(reverse('movies:all_comments', args=[movie.id]))
+        else: # 数据验证未通过，用已填的数据重新渲染表单
+            context = {
+                'movie': movie,
+                'comment_set': comment_set,
+                'form': form,
+            }
+            return render(request, 'reviews/all_comments.html', context)
+    else: # 不是 post 方法
+        try:
+            my_comment = Comment.objects.get(user_id=current_user, movie_id=movie.id)
+        except:
+            form = CommentForm()
+        else:
+            form = CommentForm(instance=my_comment)
+
+        context = {
+            'movie': movie,
+            'comment_set': comment_set,
+            'form': form,
+        }
+
+        return render(request, 'reviews/all_comments.html', context)
+
+
+def reviews(request):
+    # 排序方式
+    sort = request.GET.get('sort')
+    if sort == 'votes':
+        comment_set = Comment.objects.order_by('-thumb_ups')[:20]
+    elif sort == 'time':
+        comment_set = Comment.objects.order_by('-time')[:20]
+    else: # 默认排序方式
+        comment_set = Comment.objects.order_by('-thumb_ups')[:20]
 
     context = {
-        'movie': movie,
         'comment_set': comment_set,
-        'form': form,
     }
 
-    return render(request, 'reviews/all_comments.html', context)
+    return render(request, 'reviews/top_reviews.html', context)
 
 
 
