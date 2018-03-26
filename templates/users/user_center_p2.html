@@ -15,7 +15,7 @@
 
         {% if user.is_authenticated %}
 		<li class="nav-item">
-			<a href="#" class="nav-link active">账号管理</a>
+			<a href="" class="nav-link active">账号管理</a>
 		</li>
 		{% endif %}
     </ul>
@@ -23,7 +23,7 @@
 
     <div>
         <button type="button" class="btn btn-info btn-sm"><a href="{% url 'password_change' %}" style="color: white;">更改密码</a></button>
-        <button type="button" class="btn btn-danger btn-sm" onclick="del()">删除账号</button>
+        <button type="button" class="btn btn-danger btn-sm"><a href="{% url 'users:delete_account' %}" onclick="return del()">删除账号</a></button>
     </div>
 
 
@@ -37,9 +37,9 @@
 {% block script %}
 <script type="text/javascript">
 	function del() {
-		var name = window.confirm('确认删除账号？');
+		var name = window.confirm('该操作无法撤销，确认删除账号？');
 		if (name) {
-			// your url 传递给删除账号的视图函数
+			return true;
 		}
 		else {
 			return false;

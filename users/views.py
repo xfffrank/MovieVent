@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from .forms import RegisterForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -14,6 +16,7 @@ from .forms import PasswordResetForm
 from django.core.mail import send_mail
 from random import choice
 import string
+from movies.models import Comment
 
 # Create your views here.
 
@@ -30,7 +33,7 @@ def register(request):
 
     return render(request, 'users/register.html', context={'form': form})
 
-
+# @login_required
 def account(request):
     if not request.user.is_authenticated:
         return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
@@ -38,12 +41,22 @@ def account(request):
     return render(request, 'users/user_center_p2.html')
 
 
-# @login_required
 def user_center(request, user_id):
     user = get_object_or_404(User, pk=user_id)
 
+    # 确保登录后的用户 A 查看用户 B 的个人中心时，看不到账户管理的选项
+    logged_in = False
+    if request.user.is_authenticated and request.user.id == user.id:
+        logged_in = True
+    print(logged_in)
+
+    comment_list = Comment.objects.filter(user_id=user.id)
+    movie_list = [c.movie_id for c in comment_list]
+
     context = {
         'username': user.username,
+        'movie_list': movie_list,
+        'logged_in': logged_in,
     }
 
     return render(request, 'users/user_center_p1.html', context)
@@ -90,50 +103,16 @@ def password_reset_X(request):
 
     return render(request, 'registration/password_reset_form.html')
 
+def delete_account(request):
+    if not request.user.is_authenticated:
+        return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
+
+    # 删除账号
+    request.user.delete()
+
+    return HttpResponseRedirect(reverse('movies:index'))
 
 
 
-# class PasswordContextMixin:
-#     extra_context = None
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context.update({
-#             'title': self.title,
-#             **(self.extra_context or {})
-#         })
-#         return context
-#
-#
-# class PasswordResetView(PasswordContextMixin, FormView):
-#     email_template_name = 'registration/password_reset_email.html'
-#     extra_email_context = None
-#     form_class = PasswordResetForm
-#     from_email = None
-#     html_email_template_name = None
-#     subject_template_name = 'registration/password_reset_subject.txt'
-#     success_url = reverse_lazy('password_reset_done')
-#     template_name = 'registration/password_reset_form.html'
-#     title = _('Password reset')
-#     token_generator = default_token_generator
-#
-#     @method_decorator(csrf_protect)
-#     def dispatch(self, *args, **kwargs):
-#         return super().dispatch(*args, **kwargs)
-#
-#     def form_valid(self, form):
-#         opts = {
-#             'use_https': self.request.is_secure(),
-#             'token_generator': self.token_generator,
-#             'from_email': self.from_email,
-#             'email_template_name': self.email_template_name,
-#             'subject_template_name': self.subject_template_name,
-#             'request': self.request,
-#             'html_email_template_name': self.html_email_template_name,
-#             'extra_email_context': self.extra_email_context,
-#         }
-#
-#         # print(self.form_class.email)
-#
-#         form.save(**opts)
-#         return super().form_valid(form)
+
+
