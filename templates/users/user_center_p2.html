@@ -10,7 +10,7 @@
     <ul class="nav nav-tabs">
         <!-- 个人中心对所有人可见，“设置”只对用户本人可见 -->
         <li class="nav-item">
-            <a href="{% url 'users:user_center' user.id %}" class="nav-link">评过</a>
+            <a href="{% url 'users:homepage' user.id %}" class="nav-link">评过</a>
         </li>
 
         {% if user.is_authenticated %}

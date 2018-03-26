@@ -99,7 +99,7 @@
 		<div> <!-- 影评 -->
 			<hr>
 			<div class="review_info">
-				<span style="color: CornflowerBlue;">{{ comment.user_id.username }}</span>
+				<span style="color: CornflowerBlue;"><a href="{% url 'users:homepage' comment.user_id.id %}">{{ comment.user_id.username }}</a></span>
 				<span>{{ comment.time }}</span>
 				<span style="float: right;">{{ comment.thumb_ups }}<a href="">有用</a></span>
 			</div>
