@@ -12,6 +12,7 @@ from django.http import HttpResponse
 def pick(request):
     return render(request, 'movies/pick_movie.html')
 
+
 def now_playing(request):
     def recent():
         # 写一个判断日期的函数
@@ -33,14 +34,17 @@ def detail(request, movie_id):
 
     has_commented = False
     try:
+        # 让用户只能提交一条评论 TO-DO
         my_comment = Comment.objects.get(movie_id=movie, user_id=current_user)
-        has_commented =True
-    except:
-        pass
+    except Exception as e:
+        print(e) # test
+        my_comment = ''
+        form = CommentForm()
     else:
-        pass
+        has_commented = True
+        form = CommentForm(instance=my_comment)
     finally:
-        print(has_commented)
+        print(has_commented) # test
 
 
     sort = request.GET.get('sort')
@@ -52,7 +56,7 @@ def detail(request, movie_id):
     else: # 默认情况
         comment_set = movie.comment_set.order_by('-thumb_ups')[:5]
 
-    form = CommentForm()
+
 
     context = {
         'movie': movie,
@@ -69,10 +73,16 @@ def post_comment(request, movie_id):
     if not request.user.is_authenticated:
         return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
 
+    current_user = request.user
     movie = get_object_or_404(Movie, pk=movie_id)
 
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        try: # 验证是否存在当前用户对这部电影的评论
+            my_comment = Comment.objects.get(user_id=current_user, movie_id=movie.id)
+        except:
+            form = CommentForm(request.POST)
+        else:
+            form = CommentForm(request.POST, instance=my_comment)
 
         if form.is_valid():
             # print(form.cleaned_data['content'], username)
@@ -80,6 +90,7 @@ def post_comment(request, movie_id):
             comment.user_id = request.user
             comment.movie_id = movie
             comment.save()
+            # print("评论成功")
             # request.session['has_commented'] = True
             return redirect(movie)
         else:
@@ -89,9 +100,24 @@ def post_comment(request, movie_id):
                 'comment_set': comment_set,
                 'form': form,
             }
+            # print("评论失败")
             return render(request, 'movies/detail.html', context)
 
     return redirect(movie)
+
+
+def del_comment(request, movie_id, comment_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+
+    try:
+        comment = get_object_or_404(Comment, pk=comment_id)
+    except:
+        pass
+    else:
+        comment.delete()
+
+    return redirect(movie)
+
 
 def explore(request):
 
@@ -183,6 +209,7 @@ def index(request):
 
 
     return render(request, 'movies/index.html', context)
+
 
 def all_comments(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)

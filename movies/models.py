@@ -9,7 +9,7 @@ class Movie(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('movies:detail', args=[self.id])
+        return reverse('movies:detail', args=[self.pk])
 
     name = models.CharField(max_length=100, unique=True)
     director = models.CharField(max_length=50)

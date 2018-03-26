@@ -10,5 +10,6 @@ urlpatterns = [
     # path('subject/<int: >', views.detail, name='detail'),
     path('subject/<int:movie_id>', views.detail, name='detail'),
     path('subject/<int:movie_id>/post_comment', views.post_comment, name='post_comment'),
-    path('subject/<int:movie_id>/comments', views.all_comments, name='all_comments')
+    path('subject/<int:movie_id>/del_comment/<int:comment_id>', views.del_comment, name='del_comment'),
+    path('subject/<int:movie_id>/comments', views.all_comments, name='all_comments'),
 ]
