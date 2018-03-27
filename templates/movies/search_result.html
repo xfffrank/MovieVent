@@ -6,56 +6,59 @@
 
 {% block main %}
 <div class="container">
-    <h4>时空 的搜索结果🔍</h4>
+    <h4>{{ search_text }} 的搜索结果🔍</h4>
     <hr>
 
+    {% for movie in movie_set %}
     <div class="row test item">
         <div class="item_p1">
-            <a href="https://movie.douban.com/subject/10577869/">
-                <img class="thumb_img" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2070153774.webp"
-                     alt="时空恋旅人 About Time‎ (2013)">
+            <a href="{{ movie.get_absolute_url }}">
+                <img class="thumb_img" src="{{ movie.poster }}"
+                     alt="{{ movie.name }}">
             </a>
         </div>
 
         <div class="item_p2">
             <div class="title">
-                <a href="https://movie.douban.com/subject/10577869/" class="title-text">时空恋旅人 About Time‎ (2013)</a>
+                <a href="{{ movie.get_absolute_url }}" class="title-text">{{ movie.name }}</a>
             </div>
             <div class="rating">
-                <span class="rating_nums">8.6</span>
-                <span>(2013982人评价)</span>
+                <span class="rating_nums">{{ movie.rating }}</span>
+                <span>({{ movie.comment_set.count }}人评价)</span>
             </div>
             <div class="abstract">
-                <li>英国 / 剧情 / 爱情 / 奇幻 / 时空旅恋人 / 回到最爱的一天(港) / 123分钟</li>
-                <li>理查德·柯蒂斯 / 多姆纳尔·格里森 / 瑞秋·麦克亚当斯 / 比尔·奈伊 / 莉迪亚·威尔逊 / 汤姆·霍兰德 / 琳赛·邓肯 / 玛</li>
+                <li>{{ movie.region }} / {{ movie.genre }} / {{ movie.alternate_name }} / {{ movie.duration }}</li>
+                <li>{{ movie.director }} / {{ movie.star }}</li>
             </div>
         </div>
-
     </div>
+    {% empty %}
+    <p>没有找到关于 “{{ search_text }}” 的电影，换个搜索词试试吧。</p>
+    {% endfor %}
 
-    <div class="row test item">
-        <div class="item_p1">
-            <a href="https://movie.douban.com/subject/10577869/">
-                <img class="thumb_img" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2394677807.webp"
-                     alt="时空恋旅人 About Time‎ (2013)">
-            </a>
-        </div>
+    <!--<div class="row test item">-->
+        <!--<div class="item_p1">-->
+            <!--<a href="https://movie.douban.com/subject/10577869/">-->
+                <!--<img class="thumb_img" src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2394677807.webp"-->
+                     <!--alt="时空恋旅人 About Time‎ (2013)">-->
+            <!--</a>-->
+        <!--</div>-->
 
-        <div class="item_p2">
-            <div class="title">
-                <a href="https://movie.douban.com/subject/10577869/" class="title-text">时空 Chronos‎ (1985)</a>
-            </div>
-            <div class="rating">
-                <span class="rating_nums">8.4</span>
-                <span>(554人评价)</span>
-            </div>
-            <div class="abstract">
-                <li>加拿大 / 美国 / 纪录片 / 短片 / 时空 / 43分钟</li>
-                <li>罗恩·弗里克</li>
-            </div>
-        </div>
+        <!--<div class="item_p2">-->
+            <!--<div class="title">-->
+                <!--<a href="https://movie.douban.com/subject/10577869/" class="title-text">时空 Chronos‎ (1985)</a>-->
+            <!--</div>-->
+            <!--<div class="rating">-->
+                <!--<span class="rating_nums">8.4</span>-->
+                <!--<span>(554人评价)</span>-->
+            <!--</div>-->
+            <!--<div class="abstract">-->
+                <!--<li>加拿大 / 美国 / 纪录片 / 短片 / 时空 / 43分钟</li>-->
+                <!--<li>罗恩·弗里克</li>-->
+            <!--</div>-->
+        <!--</div>-->
 
-    </div>
+    <!--</div>-->
 
 
     <div class="pagination"> <!-- 网页导航 -->

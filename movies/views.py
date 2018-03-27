@@ -4,6 +4,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .forms import CommentForm
 from django.conf import settings
 from django.http import HttpResponseRedirect
+import pymysql
 import re
 from django.views import generic
 # Create your views here.
@@ -284,6 +285,56 @@ def reviews(request):
     }
 
     return render(request, 'reviews/top_reviews.html', context)
+
+
+def subject_search(request):
+    search_text = request.GET.get('search_text')
+
+    connection = pymysql.connect(
+        host='localhost',
+        user='abc',
+        password='123',
+        db='Vent',
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+    try: # 模糊检索
+        with connection.cursor() as cursor:
+            sql = "select `id` from `movies_movie` where `name` like %s"
+            param = '%' + search_text + '%'
+            cursor.execute(sql, (param))
+            result = cursor.fetchall()
+    except Exception as e:
+        print(e)
+    finally:
+        connection.close()
+
+    try:
+        movie_ids = [ i['id'] for i in result ]
+    except Exception as e:
+        print(e)
+    else:
+        movie_set = []
+        for id in movie_ids:
+            movie = Movie.objects.get(pk=id)
+            movie_set.append(movie)
+
+        for movie in movie_set:
+            movie.star = movie.star[:40]
+        # print(movie_set) # test
+
+        context = {
+            'search_text': search_text,
+            'movie_set': movie_set,
+        }
+
+        return render(request, 'movies/search_result.html', context)
+
+
+
+
+
 
 
 
