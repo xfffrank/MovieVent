@@ -60,9 +60,13 @@
 
 
     <div style="text-align: center; padding: 30px;"> <!-- 网页导航 -->
-        <span><a href=""><< 首页</a></span>
-        <span><a href=""> < 前页</a></span>
-        <span><a href=""> 后页 ></a></span>
+        <span><a href="{% url 'movies:all_comments' movie.id %}"><< 首页</a></span>
+        {% if previous_page == True %}
+            <span><a href="?page={{ current_p }}&page_type=previous"> < 前页</a></span>
+        {% endif %}
+        {% if next_page == True %}
+            <span><a href="?page={{ current_p }}&page_type=next"> 后页 ></a></span>
+        {% endif %}
     </div>
 
     <div class="footer">

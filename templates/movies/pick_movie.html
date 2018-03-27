@@ -103,14 +103,21 @@
     </div>
 
     <div class="pagination"> <!-- 网页导航 -->
-        <span><a href="?tag={{ tag }}&page=1"> &laquo;首页</a></span>
-        {% if movie_list.has_previous %}
-            <span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ movie_list.previous_page_number }}"> < 前页</a></span>
+        <span><a href="?tag={{ tag }}&sort={{ sort }}"> &laquo;首页</a></span>
+        {% if previous_page == True %}
+            <span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ current_p }}&page_type=previous"> < 前页</a></span>
         {% endif %}
 
-        {% if movie_list.has_next %}
-            <span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ movie_list.next_page_number }}"> 后页 ></a></span>
+        {% if next_page == True %}
+            <span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ current_p }}&page_type=next"> 后页 ></a></span>
         {% endif %}
+        <!--{% if movie_list.has_previous %}-->
+            <!--<span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ movie_list.previous_page_number }}"> < 前页</a></span>-->
+        <!--{% endif %}-->
+
+        <!--{% if movie_list.has_next %}-->
+            <!--<span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ movie_list.next_page_number }}"> 后页 ></a></span>-->
+        <!--{% endif %}-->
     </div>
 
     <div class="footer">

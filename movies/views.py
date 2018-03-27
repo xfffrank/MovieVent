@@ -122,10 +122,10 @@ def del_comment(request, movie_id, comment_id):
 
 
 def explore(request):
-
+    # 获取标签和排序方式
     tag = request.GET.get('tag', '热门')
     sort = request.GET.get('sort', 'recommend')
-    print(tag, sort)
+    # print(tag, sort)
 
     if sort == 'recommend':
         sort_value = '-heat'
@@ -134,39 +134,98 @@ def explore(request):
     elif sort == 'rank':
         sort_value = '-rating'
 
+    limit = 20 # 每页显示的数量
+
+    # 取页码以及翻页类型
+    # 当前页面若取不到，则默认第一页
+    # 注意这里 page 参数对应的值在前端
+    current_p = int(request.GET.get('page', '1'))
+    page_type = request.GET.get('page_type', '')
+
+    if page_type == 'previous':
+        current_p -= 1
+    elif page_type == 'next':
+        current_p += 1
+    print('当前页数', current_p) #test
+
+    previous_page = True
+    next_page = True
+    start_pos = (current_p - 1) * limit
+    end_pos = start_pos + limit
+
+
     if tag == '热门':
+        # 计算该类别的电影数量
+        movie_num = Movie.objects.all().order_by('-heat').count()
         if sort == 'recommend':
-            movie_list = Movie.objects.all().order_by('-heat')
+            try:
+                movie_list = Movie.objects.all().order_by('-heat')[start_pos:end_pos]
+            except Exception as e:  # 最后一页可能取不到那么多
+                print(e)
+                movie_list = Movie.objects.all().order_by('-heat')[start_pos:]
         elif sort == 'time':
-            movie_list = Movie.objects.order_by('-heat')[:50]
+            try:
+                movie_list = Movie.objects.all().order_by('-heat')[start_pos:end_pos]
+            except Exception as e:  # 最后一页可能取不到那么多
+                print(e)
+                movie_list = Movie.objects.all().order_by('-heat')[start_pos:]
             movie_list = sorted(movie_list, key=lambda m: m.release_time, reverse=True)
         elif sort == 'rank':
-            movie_list = Movie.objects.order_by('-heat')[:50]
+            try:
+                movie_list = Movie.objects.all().order_by('-heat')[start_pos:end_pos]
+            except Exception as e:  # 最后一页可能取不到那么多
+                print(e)
+                movie_list = Movie.objects.all().order_by('-heat')[start_pos:]
             movie_list = sorted(movie_list, key=lambda m: m.rating, reverse=True)
     elif tag == '最新':
         # 需设置 radio 不可选
-        movie_list = Movie.objects.all().order_by('-release_time')
-    else:
-        movie_list = Movie.objects.filter(genre__icontains=tag).order_by(sort_value)
+        movie_num = Movie.objects.all().order_by('-release_time').count()
+        try:
+            movie_list = Movie.objects.all().order_by('-release_time')[start_pos:end_pos]
+        except Exception as e:  # 最后一页可能取不到那么多
+            print(e)
+            movie_list = Movie.objects.all().order_by('-release_time')[start_pos:]
+    else: # 处理除'最新'，'热门'以外的标签
+        movie_num = Movie.objects.filter(genre__icontains=tag).order_by(sort_value).count()
+        try:
+            movie_list = Movie.objects.filter(genre__icontains=tag).order_by(sort_value)[start_pos:end_pos]
+        except Exception as e:  # 最后一页可能取不到那么多
+            print(e)
+            movie_list = Movie.objects.filter(genre__icontains=tag).order_by(sort_value)[start_pos:]
+
+    # 判断是否有上下页
+    if start_pos <= 0:
+        previous_page = False
+    if end_pos > movie_num:
+        next_page = False
+
+    # test
+    # print('previous_page:', previous_page)
+    # print('next_page:', next_page)
+    # print('start_pos', start_pos)
+    # print('end_pos', end_pos)
 
     for movie in movie_list:
         movie.name = movie.name.split(' ')[0]
 
     # paginator
-    limit = 15
-    paginator = Paginator(movie_list, limit)
-    page = request.GET.get('page')
-    print('当前页数', page)
-    movies = paginator.get_page(page)
+    # limit = 15
+    # paginator = Paginator(movie_list, limit)
+    # page = request.GET.get('page')
+    # print('当前页数', page)
+    # movies = paginator.get_page(page)
 
     context = {
-        'movie_list': movies,
+        'movie_list': movie_list,
         'tag': tag,
         'sort': sort,
+        'previous_page': previous_page,
+        'next_page': next_page,
+        'current_p': current_p,
+        'page_type': page_type,
     }
 
     return render(request, 'movies/pick_movie.html', context)
-    # return HttpResponse(tag)
 
 
 def index(request):
@@ -215,22 +274,58 @@ def index(request):
 
 def all_comments(request, movie_id):
 
-    if not request.user.is_authenticated: # 检查评论权限
-        return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
-
     current_user = request.user
     movie = get_object_or_404(Movie, pk=movie_id)
 
     # 排序方式
     sort = request.GET.get('sort')
+    # 获取页码以及翻页类型
+    current_p = int(request.GET.get('page', '1'))
+    page_type = request.GET.get('page_type', '')
+
+    limit = 20  # 每页显示的数量
+    # 判断翻页类型
+    if page_type == 'previous':
+        current_p -= 1
+    elif page_type == 'next':
+        current_p += 1
+
+    previous_page = True
+    next_page = True
+    start_pos = (current_p - 1) * limit
+    end_pos = start_pos + limit
+
+    comment_num = movie.comment_set.count()
     if sort == 'votes':
-        comment_set = movie.comment_set.order_by('-thumb_ups')[:20]
+        try:
+            comment_set = movie.comment_set.order_by('-thumb_ups')[start_pos:end_pos]
+        except Exception as e:
+            print(e)
+            comment_set = movie.comment_set.order_by('-thumb_ups')[start_pos:]
     elif sort == 'time':
-        comment_set = movie.comment_set.order_by('-time')[:20]
-    else:
-        comment_set = movie.comment_set.order_by('-thumb_ups')[:20]
+        try:
+            comment_set = movie.comment_set.order_by('-time')[start_pos:end_pos]
+        except Exception as e:
+            print(e)
+            comment_set = movie.comment_set.order_by('-time')[start_pos:]
+    else: # 默认排序
+        try:
+            comment_set = movie.comment_set.order_by('-thumb_ups')[start_pos:end_pos]
+        except Exception as e:
+            print(e)
+            comment_set = movie.comment_set.order_by('-thumb_ups')[start_pos:]
+
+    # 判断是否有上下页
+    if start_pos <= 0:
+        previous_page = False
+    if end_pos > comment_num:
+        next_page = False
 
     if request.method == 'POST':
+        # 若方法为 post，检查权限
+        if not request.user.is_authenticated:  # 检查评论权限
+            return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
+
         try: # 验证是否存在当前用户对这部电影的评论
             my_comment = Comment.objects.get(user_id=current_user, movie_id=movie.id)
         except:
@@ -251,6 +346,10 @@ def all_comments(request, movie_id):
                 'movie': movie,
                 'comment_set': comment_set,
                 'form': form,
+                'current_p': current_p,
+                'page_type': page_type,
+                'previous_page': previous_page,
+                'next_page': next_page,
             }
             return render(request, 'reviews/all_comments.html', context)
     else: # 不是 post 方法
@@ -265,6 +364,10 @@ def all_comments(request, movie_id):
             'movie': movie,
             'comment_set': comment_set,
             'form': form,
+            'current_p': current_p,
+            'page_type': page_type,
+            'previous_page': previous_page,
+            'next_page': next_page,
         }
 
         return render(request, 'reviews/all_comments.html', context)
@@ -273,15 +376,47 @@ def all_comments(request, movie_id):
 def reviews(request):
     # 排序方式
     sort = request.GET.get('sort')
+    # 取页码以及翻页类型
+    # 当前页面若取不到，则默认第一页
+    # 注意这里 page 参数对应的值在前端
+    current_p = int(request.GET.get('page', '1'))
+    page_type = request.GET.get('page_type', '')
+    limit = 20  # 每页显示的数量
+
+    # 判断翻页类型
+    if page_type == 'previous':
+        current_p -= 1
+    elif page_type == 'next':
+        current_p += 1
+
+    previous_page = True
+    next_page = True
+    start_pos = (current_p - 1) * limit
+    end_pos = start_pos + limit
+
+    comment_num_limit = 100
+    # 判断是否有上下页
+    if start_pos <= 0:
+        previous_page = False
+    if end_pos >= comment_num_limit:
+        next_page = False
+
+    # 因为数据库里一定有超过 100 条评论，而此处最多只显示 100 条评论，所以不需要使用 try 语句
     if sort == 'votes':
-        comment_set = Comment.objects.order_by('-thumb_ups')[:20]
+        comment_set = Comment.objects.order_by('-thumb_ups')[start_pos:end_pos]
+
     elif sort == 'time':
-        comment_set = Comment.objects.order_by('-time')[:20]
+        comment_set = Comment.objects.order_by('-time')[start_pos:end_pos]
     else: # 默认排序方式
-        comment_set = Comment.objects.order_by('-thumb_ups')[:20]
+        comment_set = Comment.objects.order_by('-thumb_ups')[start_pos:end_pos]
 
     context = {
         'comment_set': comment_set,
+        'next_page': next_page,
+        'previous_page': previous_page,
+        'current_p': current_p,
+        'page_type': page_type,
+        'sort': sort,
     }
 
     return render(request, 'reviews/top_reviews.html', context)
