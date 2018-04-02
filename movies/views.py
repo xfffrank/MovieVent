@@ -4,7 +4,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .forms import CommentForm
 from django.conf import settings
 from django.http import HttpResponseRedirect, JsonResponse
-import pymysql
+import pymysql, json
+from django.core.serializers import serialize
 import re
 from django.views import generic
 # Create your views here.
@@ -215,6 +216,7 @@ def explore(request):
     # print('当前页数', page)
     # movies = paginator.get_page(page)
 
+
     context = {
         'movie_list': movie_list,
         'tag': tag,
@@ -228,8 +230,55 @@ def explore(request):
     return render(request, 'movies/pick_movie.html', context)
 
 
+
 def index(request):
 
+    # now_playing_list = Movie.objects.order_by('-release_time')[:5]
+    # for movie in now_playing_list:
+    #     movie.name = movie.name.split(' ')[0]
+    #
+    # now_playing_page = request.GET.get('now_playing_page', 1)
+    # # 判断是否有上下页
+    # if now_playing_page == 1:
+    #     np_previous = 0
+    # elif now_playing_page == 4:
+    #     np_next = 0
+    # else:
+    #     np_previous = 1
+    #     np_next = 1
+    #
+    # # 建立数据库连接
+    # connection = pymysql.connect(
+    #     host='localhost',
+    #     user='abc',
+    #     password='123',
+    #     db='Vent',
+    #     charset='utf8mb4',
+    #     cursorclass=pymysql.cursors.DictCursor
+    # )
+    # try:
+    #     with connection.cursor() as cursor:
+    #         sql = "SELECT `name`, `poster`, `rating` from `movies_movie` ORDER BY `release_time` DESC LIMIT 20"
+    #         cursor.execute(sql)
+    #         result = cursor.fetchall()
+    # except Exception as e:
+    #     print(e)
+    # else:
+    #     test = result[5:10]
+    #     # test_ret = json.dumps(test)
+    #     # test_json = json.loads(test_ret)
+    #     return JsonResponse(test)
+    #
+    # context = {
+    #     'np_list': now_playing,
+    #     # 'hot_list': hot_list,
+    #     # 'rating_list': rating_list,
+    #     'now_playing_page': now_playing_page,
+    #     # 'hot_page': hot_page,
+    #     # 'rating_page': rating_page,
+    # }
+    #
+    # return render(request, 'movies/index.html', context)
 
     # 正在上映
     now_playing = Movie.objects.order_by('-release_time')[:20]
@@ -260,7 +309,7 @@ def index(request):
     rating_list = paginator2.get_page(rating_page)
 
     context = {
-        'movie_list1': now_playing,
+        'np_list': now_playing,
         'hot_list': hot_list,
         'rating_list': rating_list,
         'now_playing_page': now_playing_page,

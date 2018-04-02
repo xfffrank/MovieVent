@@ -11,22 +11,14 @@
 			<span>正在热映</span>
 			<span><a href="{% url 'movies:now_playing' %}" style="font-size: 14px;">全部正在热映</a></span>
 			<div class="header">
-				<span>{{ movie_list1.number }} / {{ movie_list1.paginator.num_pages }}</span>
-				{% if movie_list1.has_previous %}
-				<span><a href="?hot_page={{ hot_page }}&&now_playing_page={{ movie_list1.previous_page_number }}">上页</a></span>
-				{% endif %}
-
-				{% if movie_list1.has_next %}
-				<span><a href="?hot_page={{ hot_page }}&&now_playing_page={{ movie_list1.next_page_number }}">下页</a></span>
-				{% endif %}
-
-
+				<span>{{ now_playing_page }} / 4</span>
+                <span><a href="avascript:;" class="next">下一页</a></span>
 			</div>
 		</div>
 
 		<hr/>
 		<div class="row movie_row">
-			{% for movie in movie_list1 %}
+			{% for movie in np_list %}
 			<ul class="col-sm-2.4">
                 <div class="accord">
                     <li class="poster">
@@ -124,27 +116,17 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-      $('.like').click(function(){
+      $('.next').click(function(){
 
 		var element = $(this); // 保存当前元素
       	var comment_id = $(this).data('val'); // 获取该条评论的 id
 
 
-      	$.get("{% url 'movies:like_comment' %}",
-      		{'comment_id': comment_id},
+      	$.get("{% url 'movies:index' %}",
+
 
       		function(ret) {
-				if(ret["login"] == 0) {
-					alert("请先登录！")
-				}
 
-				else if(ret["has_commented"] == 1) {
-					alert("您已经投过票了！");
-				}
-				else {
-					//alert(ret["user"] + " " + ret["thumb_ups"]);
-					element.prev().html(ret["thumb_ups"]);
-				}
 
       		}
       	)
