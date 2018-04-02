@@ -119,3 +119,38 @@
 
 	</div>
 {% endblock main %}
+
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+      $('.like').click(function(){
+
+		var element = $(this); // 保存当前元素
+      	var comment_id = $(this).data('val'); // 获取该条评论的 id
+
+
+      	$.get("{% url 'movies:like_comment' %}",
+      		{'comment_id': comment_id},
+
+      		function(ret) {
+				if(ret["login"] == 0) {
+					alert("请先登录！")
+				}
+
+				else if(ret["has_commented"] == 1) {
+					alert("您已经投过票了！");
+				}
+				else {
+					//alert(ret["user"] + " " + ret["thumb_ups"]);
+					element.prev().html(ret["thumb_ups"]);
+				}
+
+      		}
+      	)
+      });
+
+});
+
+</script>
+{% endblock script %}

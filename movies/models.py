@@ -40,18 +40,19 @@ class Comment(models.Model):
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(auto_now_add=True)
     text = models.CharField(max_length=280)
     thumb_ups = models.IntegerField(default=0)
 
-    # objects = CommentManager()
-    #
-    # @classmethod
-    # def create(cls, user_id, movie_id, text, thumb_ups):
-    #     user = User.objects.get(id=user_id)
-    #
-    #     comment = cls(user_id=user, movie_id=movie_id, text=text, thumb_ups=thumb_ups)
-    #     return comment
+
+class Like(models.Model):
+    """
+    保存用户的点赞记录
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # 点赞的用户
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE) # 所点赞的评论
+
+
 
 
 

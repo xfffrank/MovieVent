@@ -3,7 +3,7 @@ from .models import Movie, Comment
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .forms import CommentForm
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 import pymysql
 import re
 from django.views import generic
@@ -230,6 +230,7 @@ def explore(request):
 
 def index(request):
 
+
     # 正在上映
     now_playing = Movie.objects.order_by('-release_time')[:20]
     for movie in now_playing:
@@ -266,8 +267,6 @@ def index(request):
         'hot_page': hot_page,
         'rating_page': rating_page,
     }
-
-
 
     return render(request, 'movies/index.html', context)
 
@@ -465,6 +464,65 @@ def subject_search(request):
         }
 
         return render(request, 'movies/search_result.html', context)
+
+
+def like_comment(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'login': 0,
+        })
+        # return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
+
+    # 获取评论id
+    # comment_id = request.GET.get('comment_id') # GET 写法
+    comment_id = request.POST['comment_id'] # POST 写法
+    # 从数据库中获取评论对象
+    comment = get_object_or_404(Comment, pk=comment_id)
+    # 获取当前登录用户
+    current_user = request.user
+
+    connection = pymysql.connect(
+        host='localhost',
+        user='abc',
+        password='123',
+        db='Vent',
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM `movies_like` WHERE `comment_id` = %s and `user_id` = %s"
+            params = [comment_id, current_user.id]
+            cursor.execute(sql, (params))
+            result = cursor.fetchall()
+    except Exception as e:
+        print(e)
+    else:
+        if result == (): # 该用户还未对这条评论点赞
+            has_commented  = 0 # 前端标记
+            comment.thumb_ups += 1 # 该条评论的点赞数 ＋ 1
+            comment.save()
+            try:
+                with connection.cursor() as cursor:
+                    sql = "INSERT INTO `movies_like` (`comment_id`, `user_id`) VALUES (%s, %s)"
+                    params = [comment_id, current_user.id]
+                    cursor.execute(sql, (params))
+                connection.commit() # 提交修改
+            except Exception as e:
+                print(e)
+        else:
+            has_commented = 1
+
+        context = {
+            'thumb_ups': comment.thumb_ups,
+            'has_commented': has_commented,
+        }
+
+        return JsonResponse(context)
+    finally:
+        connection.close()
+
 
 
 

@@ -14,4 +14,5 @@ urlpatterns = [
     path('subject/<int:movie_id>/del_comment/<int:comment_id>', views.del_comment, name='del_comment'),
     path('subject/<int:movie_id>/comments', views.all_comments, name='all_comments'),
     path('subject_search', views.subject_search, name='subject_search'),
+    path('like_comment', views.like_comment, name='like_comment')
 ]

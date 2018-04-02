@@ -56,8 +56,8 @@
     </div>
 
     <div class="sort">
-        <label for="option1">
-            <input type="radio"  id="option1" name="sort" value="recommend">
+        <label for="recommend">
+            <input type="radio"  id="recommend" name="sort" value="recommend">
             按热度排序
         </label>
 
@@ -130,16 +130,15 @@
 <script type="text/javascript">
 /*
 $(document).ready(function(){
-    $(".sort label").click(function(){
-        $("#explore").submit();
+    $("#tag8").click(function(){
+
+
+        var sort_value = $("#tag8").val();
+
+        $.get('{% url 'movies:explore' %}', {tag: sort_value});
 
     });
 
-    $("#tag label").click(function(){
-
-        $("#explore").submit();
-
-    });
 
 });
 */

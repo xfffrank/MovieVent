@@ -101,7 +101,10 @@
 			<div class="review_info">
 				<span style="color: CornflowerBlue;"><a href="{% url 'users:homepage' comment.user_id.id %}">{{ comment.user_id.username }}</a></span>
 				<span>{{ comment.time }}</span>
-				<span style="float: right;">{{ comment.thumb_ups }}<a href="">有用</a></span>
+				<span style="float: right;">
+					<span>{{ comment.thumb_ups }}</span>
+					<a href="javascript:;" data-val="{{ comment.id }}" class="like"> 有用</a>
+				</span>
 			</div>
 			<p>{{ comment.text }}</p>
 		</div>
@@ -118,7 +121,39 @@
 
 {% block script %}
 <script type="text/javascript">
+$(document).ready(function(){
 
+      $('.like').click(function(){
+
+		var element = $(this); // 保存当前元素
+      	var comment_id = $(this).data('val'); // 获取该条评论的 id
+
+
+      	$.post("{% url 'movies:like_comment' %}",
+      		{
+      			'comment_id': comment_id,
+      			csrfmiddlewaretoken: '{{ csrf_token }}',
+
+      		},
+
+      		function(ret) {
+				if(ret["login"] == 0) {
+					alert("请先登录！")
+				}
+
+				else if(ret["has_commented"] == 1) {
+					alert("您已经投过票了！");
+				}
+				else {
+					//alert(ret["user"] + " " + ret["thumb_ups"]);
+					element.prev().html(ret["thumb_ups"]);
+				}
+
+      		}
+      	)
+      });
+
+});
 
 </script>
 {% endblock script %}
