@@ -36,19 +36,48 @@
     <p>没有找到关于 “{{ search_text }}” 的电影，换个搜索词试试吧。</p>
     {% endfor %}
 
-    <div style="text-align: center; padding: 30px;"> <!-- 网页导航 -->
-        <span><a href="{% url 'movies:subject_search' %}?search_text={{ search_text }}&start_pos=0"><< 首页</a></span>
+    <!--<div style="text-align: center; padding: 30px;"> &lt;!&ndash; 网页导航 &ndash;&gt;-->
+        <!--<span><a href="?search_text={{ search_text }}&start_pos=0"><< 首页</a></span>-->
+        <!--{% if previous_page == True %}-->
+        <!--<span><a href="?search_text={{ search_text }}&start_pos={{ start_pos|add:'-5' }}"> < 前页</a></span>-->
+        <!--{% endif %}-->
+
+        <!--{% if next_page == True %}-->
+        <!--<span><a href="?search_text={{ search_text }}&start_pos={{ start_pos|add:'5' }}"> 后页 ></a></span>-->
+        <!--{% endif %}-->
+    <!--</div>-->
+
+    <!--使用 bootstrap 的分页风格-->
+    <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&start_pos=0" id="first_page">首页</a></li>
         {% if previous_page == True %}
-        <span><a href="?search_text={{ search_text }}&start_pos={{ start_pos|add:'-5' }}"> < 前页</a></span>
+        <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&start_pos={{ start_pos|add:'-5' }}">前页</a></li>
         {% endif %}
 
         {% if next_page == True %}
-        <span><a href="?search_text={{ search_text }}&start_pos={{ start_pos|add:'5' }}"> 后页 ></a></span>
+        <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&start_pos={{ start_pos|add:'5' }}">后页</a></li>
         {% endif %}
-    </div>
+    </ul>
 
     <div class="footer">
         <footer>@ 2018 Vent All Rights Reserved</footer>
     </div>
 </div>
 {% endblock main %}
+
+
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+	 var search_text = "{{ search_text }}";
+	 if (search_text == "") {
+	    $('#first_page').attr("hidden", "true");
+	 }
+
+
+});
+
+
+</script>
+{% endblock script %}
