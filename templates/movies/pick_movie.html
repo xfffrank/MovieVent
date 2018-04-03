@@ -61,10 +61,7 @@
                 <input type="radio" id="option3" name="sort" value="rank">
                 按评价排序
             </label>
-
             <!--<button type="submit">提交</button>-->
-
-
         </div>
     </form>
 
@@ -92,13 +89,13 @@
     </div>
 
     <div style="text-align: center; padding: 30px;"> <!-- 网页导航 -->
-        <span><a href="?tag={{ tag }}&sort={{ sort }}"> &laquo;首页</a></span>
+        <span><a href="?tag={{ tag }}&sort={{ sort }}&start_pos=0"> &laquo;首页</a></span>
         {% if previous_page == True %}
-        <span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ current_p }}&page_type=previous"> < 前页</a></span>
+        <span><a href="?tag={{ tag }}&sort={{ sort }}&start_pos={{ start_pos | add:'-20' }}"> < 前页</a></span>
         {% endif %}
 
         {% if next_page == True %}
-        <span><a href="?tag={{ tag }}&sort={{ sort }}&page={{ current_p }}&page_type=next"> 后页 ></a></span>
+        <span><a href="?tag={{ tag }}&sort={{ sort }}&start_pos={{ start_pos | add:'20' }}"> 后页 ></a></span>
         {% endif %}
 
     </div>
