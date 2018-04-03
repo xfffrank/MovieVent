@@ -27,15 +27,15 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'movies:explore' %}"> 选电影<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" id="nav_pick" href="{% url 'movies:explore' %}"> 选电影<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'movies:reviews' %}">影评</a>
+                    <a class="nav-link" id="nav_review" href="{% url 'movies:reviews' %}">影评</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">用户名</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="nav_user" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'users:homepage' user.id %}">个人中心</a>
                         <!--<a class="dropdown-item" href="{% url 'users:account' %}">帐号管理</a>-->
@@ -56,9 +56,9 @@
             </form>
             {% if user.is_authenticated %}
             {% else %}
-            <a class="btn btn-sm btn-outline-secondary" href="{% url 'login' %}?next={{ request.path }}" style="margin-right:10px">登录</a>
+            <a class="btn btn-sm btn-outline-secondary active" href="{% url 'login' %}?next={{ request.path }}" style="margin-right:10px">登录</a>
 
-            <a class="btn btn-sm btn-outline-secondary" href="{% url 'users:register' %}">注册</a>
+            <a class="btn btn-sm btn-outline-secondary active" href="{% url 'users:register' %}">注册</a>
             {% endif %}
         </div>
     </nav>

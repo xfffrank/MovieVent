@@ -90,9 +90,9 @@
 		</h6>
 
 		<p style="font-size: 14px">
-            <a href="{% url 'movies:detail' movie.id %}?sort=votes">热门</a>
+            <a href="{% url 'movies:detail' movie.id %}?sort=votes" id="popular">热门</a>
             ／
-            <a href="{% url 'movies:detail' movie.id %}?sort=time">最新</a>
+            <a href="{% url 'movies:detail' movie.id %}?sort=time" id="new">最新</a>
         </p>
 
 		{% for comment in comment_set %}
@@ -122,6 +122,31 @@
 {% block script %}
 <script type="text/javascript">
 $(document).ready(function(){
+
+	  // 点击"我要写短评"时触发登录状态验证
+	  $('.w_review').click(function(){
+	  	var is_login = $('#nav_user').val();
+		  if (is_login == undefined) {
+			alert("请先登录！");
+			$(this).attr('data-target', '#bye');
+		  }
+	  });
+
+	//  根据排序方式，处理相应的链接，使不可点击
+	var sort = '{{ sort }}';
+    if(sort == 'time') {
+        // alert(sort);
+        $('#new').click(false);
+        $('#new').css("color", "black");
+        $('#new').css("pointer-events", "none");
+    }
+    else if(sort == 'votes') {
+        $('#popular').click(false);
+        $('#popular').css("color", "black");
+        $('#popular').css("pointer-events", "none");
+    }
+
+
 
       $('.like').click(function(){
 

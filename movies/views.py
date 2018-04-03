@@ -50,7 +50,7 @@ def detail(request, movie_id):
         print(has_commented) # test
 
 
-    sort = request.GET.get('sort')
+    sort = request.GET.get('sort', 'votes')
     if sort == 'votes':
         # comment_set = sorted(comment_set, key=lambda m: m.thumb_ups, reverse=True)
         comment_set = movie.comment_set.order_by('-thumb_ups')[:5]
@@ -67,6 +67,7 @@ def detail(request, movie_id):
         'form': form,
         'has_commented': has_commented,
         'my_comment': my_comment,
+        'sort': sort,
     }
 
     return render(request, 'movies/detail.html', context)
