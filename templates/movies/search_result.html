@@ -37,9 +37,14 @@
     {% endfor %}
 
     <div style="text-align: center; padding: 30px;"> <!-- 网页导航 -->
-        <span><a href=""><< 首页</a></span>
-        <span><a href=""> < 前页</a></span>
-        <span><a href=""> 后页 ></a></span>
+        <span><a href="{% url 'movies:subject_search' %}?search_text={{ search_text }}&start_pos=0"><< 首页</a></span>
+        {% if previous_page == True %}
+        <span><a href="?search_text={{ search_text }}&start_pos={{ start_pos|add:'-5' }}"> < 前页</a></span>
+        {% endif %}
+
+        {% if next_page == True %}
+        <span><a href="?search_text={{ search_text }}&start_pos={{ start_pos|add:'5' }}"> 后页 ></a></span>
+        {% endif %}
     </div>
 
     <div class="footer">

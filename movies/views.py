@@ -471,7 +471,11 @@ def reviews(request):
 
 
 def subject_search(request):
+    # 获取搜索内容
     search_text = request.GET.get('search_text')
+    # 获取索引位置
+    start_pos = int(request.GET.get("start_pos", 0))
+    print("起始索引为", start_pos) # test
 
     connection = pymysql.connect(
         host='localhost',
@@ -493,26 +497,47 @@ def subject_search(request):
     finally:
         connection.close()
 
-    try:
-        movie_ids = [ i['id'] for i in result ]
-    except Exception as e:
-        print(e)
+    # 若搜索关键词为空，则返回空结果
+    if search_text == "":
+        result = ()
+
+    movie_ids = [ i['id'] for i in result ]
+
+    movie_set = []
+    for id in movie_ids:
+        movie = Movie.objects.get(pk=id)
+        movie_set.append(movie)
+
+    for movie in movie_set:
+        movie.star = movie.star[:40]
+    # print(movie_set) # test
+
+    # 上一页，下一页的值初始化为真
+    previous_page = True
+    next_page = True
+
+    # 判断索引值是否溢出
+    end_pos = start_pos + 5
+    if end_pos >= len(movie_set):
+        next_page = False
+    if start_pos <= 0:
+        previous_page = False
+
+    if end_pos > len(movie_set):
+        movie_set = movie_set[start_pos:]
     else:
-        movie_set = []
-        for id in movie_ids:
-            movie = Movie.objects.get(pk=id)
-            movie_set.append(movie)
+        movie_set = movie_set[start_pos:end_pos]
 
-        for movie in movie_set:
-            movie.star = movie.star[:40]
-        # print(movie_set) # test
+    context = {
+        'search_text': search_text,
+        'movie_set': movie_set,
+        'start_pos': start_pos,
+        'previous_page': previous_page,
+        'next_page': next_page,
 
-        context = {
-            'search_text': search_text,
-            'movie_set': movie_set,
-        }
+    }
 
-        return render(request, 'movies/search_result.html', context)
+    return render(request, 'movies/search_result.html', context)
 
 
 def like_comment(request):
