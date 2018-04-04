@@ -56,9 +56,9 @@
             </form>
             {% if user.is_authenticated %}
             {% else %}
-            <a class="btn btn-sm btn-outline-secondary active" href="{% url 'login' %}?next={{ request.path }}" style="margin-right:10px">登录</a>
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'login' %}?next={{ request.path }}" style="margin-right:10px" id="login">登录</a>
 
-            <a class="btn btn-sm btn-outline-secondary active" href="{% url 'users:register' %}">注册</a>
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'users:register' %}" id="register">注册</a>
             {% endif %}
         </div>
     </nav>
@@ -84,5 +84,13 @@
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 
 {% block script %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+
+
+
+</script>
+
 {% endblock script %}
 

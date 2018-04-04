@@ -33,6 +33,8 @@
                         {{ form.text.errors }}
                     </div>
                     <div class="modal-footer">
+                        <span id="characters">0</span>
+                        <span> / 140</span>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                         <button type="submit" class="btn btn-primary">保存</button>
                     </div>
@@ -96,6 +98,20 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+
+
+      // 计算初始字符长度
+	  var cs = $('#id_text').val().length;
+	  $('#characters').text(cs);
+
+ 	  // 按键松开时，更新字符长度
+	  $('#id_text').keyup(updateCount);
+
+		function updateCount() {
+			var cs = $(this).val().length;
+			$('#characters').text(cs);
+		}
+
 	  // 点击"我要写短评"时触发登录状态验证
 	  $('.w_review').click(function(){
 	  	var is_login = $('#nav_user').val();
@@ -107,6 +123,9 @@ $(document).ready(function(){
 
       //  根据排序方式，处理相应的链接，使不可点击
 	var sort = '{{ sort }}';
+
+    //  alert(sort);
+
     if(sort == 'time') {
         // alert(sort);
         $('#new').click(false);

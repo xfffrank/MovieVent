@@ -41,7 +41,7 @@ class Comment(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True)
-    text = models.CharField(max_length=280)
+    text = models.TextField(max_length=140)
     thumb_ups = models.IntegerField(default=0)
 
 
