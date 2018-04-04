@@ -451,10 +451,15 @@ def subject_search(request):
     if start_pos <= 0:
         previous_page = False
 
-    if end_pos > len(movie_set):
+    first_page = True
+    if movie_set == []:
+        first_page = False
+    elif end_pos > len(movie_set):
         movie_set = movie_set[start_pos:]
     else:
         movie_set = movie_set[start_pos:end_pos]
+
+
 
     context = {
         'search_text': search_text,
@@ -462,7 +467,7 @@ def subject_search(request):
         'start_pos': start_pos,
         'previous_page': previous_page,
         'next_page': next_page,
-
+        'first_page': first_page,
     }
 
     return render(request, 'movies/search_result.html', context)

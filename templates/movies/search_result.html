@@ -49,7 +49,10 @@
 
     <!--使用 bootstrap 的分页风格-->
     <ul class="pagination justify-content-center">
+        {% if first_page == True %}
         <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&start_pos=0" id="first_page">首页</a></li>
+        {% endif %}
+
         {% if previous_page == True %}
         <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&start_pos={{ start_pos|add:'-5' }}">前页</a></li>
         {% endif %}
@@ -70,10 +73,14 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-	 var search_text = "{{ search_text }}";
-	 if (search_text == "") {
+    /*
+	 var movie_set = "{{ movie_set }}";
+
+	 if (movie_set == "[]") {
+	    // alert(movie_set);
 	    $('#first_page').attr("hidden", "true");
 	 }
+	 */
 
 
 });
