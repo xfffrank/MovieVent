@@ -110,7 +110,7 @@ def post_comment(request, movie_id):
     return redirect(movie)
 
 
-def del_comment(request, movie_id, comment_id):
+def del_comment(movie_id, comment_id):
     movie = get_object_or_404(Movie, pk=movie_id)
 
     try:
