@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.core import mail
 from django.contrib.auth.models import User
+from django.urls import reverse
 # Create your tests here.
+
 
 class UserTestCase(TestCase):
     def setUp(self):
@@ -18,13 +20,42 @@ class UserTestCase(TestCase):
         user.save()
         self.assertEqual(user.username, 'test_user2')
 
-    def test_delete_user(self):
-        user = User.objects.create(username='test_user3', password='123')
-        user.delete()
+    def test_account(self):
+        user = User.objects.get(username='test_user')
+        user.set_password('123')
+        user.save()
+        login = self.client.login(username='test_user', password='123')
 
-    def login(self):
-        response = self.client.post('/login/', {'username': 'test_user', 'password': '123'})
+        url = reverse('users:account')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
+    def test_user_center(self):
+        user = User.objects.get(username='test_user')
+        user.set_password('123')
+        user.save()
+        login = self.client.login(username='test_user', password='123')
+
+        url = reverse('users:homepage', args=(user.id, ))
+        response = self.client.get(url)
+        self.assertEqual(response.context['username'], 'test_user')
+
+
+    def test_delete_account(self):
+        user = User.objects.get(username='test_user')
+        user.set_password('123')
+        user.save()
+
+        login = self.client.login(username='test_user', password='123')
+        self.assertIs(login, True)
+        url = reverse('users:delete_account')
+        self.client.get(url)
+
+        test = User.objects.all()
+        self.assertQuerysetEqual(test, [])
+
+
+
 
 
 

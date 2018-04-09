@@ -62,7 +62,7 @@ def user_center(request, user_id):
     return render(request, 'users/user_center_p1.html', context)
 
 
-def password_reset_X(request):
+def password_reset_x(request):
     email = request.POST.get('email')
 
     print(email)
@@ -98,10 +98,7 @@ def password_reset_X(request):
 
             return render(request, 'registration/password_reset_done.html')
 
-    # print(email)
 
-
-    return render(request, 'registration/password_reset_form.html')
 
 def delete_account(request):
     if not request.user.is_authenticated:

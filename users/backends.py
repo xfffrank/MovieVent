@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 
 # 使用邮箱登录
+
+
 class EmailBackend(object):
 
     def authenticate(self, request, **credentials):

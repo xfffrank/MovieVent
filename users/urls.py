@@ -8,6 +8,6 @@ urlpatterns = [
     path('account/', views.account, name='account'),
     path('user/<int:user_id>', views.user_center, name='homepage'),
     # path('password_reset', views.PasswordResetView.as_view(), name='password_reset'),
-    path('password_reset_X', views.password_reset_X, name='password_reset_X'),
+    path('password_reset', views.password_reset_x, name='password_reset_X'),
     path('account/suicide', views.delete_account, name='delete_account'),
 ]

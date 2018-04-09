@@ -470,8 +470,6 @@ def subject_search(request):
     else:
         movie_set = movie_set[start_pos:end_pos]
 
-
-
     context = {
         'search_text': search_text,
         'movie_set': movie_set,
