@@ -78,15 +78,18 @@ def password_reset_x(request):
             return render(request, 'registration/password_reset_form.html', {'user_not_exist': user_not_exist})
         else:
             print('邮箱可找到')
-            user_id = user.id
-            user_name = user.username
+            # user_id = user.id
+            # user_name = user.username
 
             def GenPassword(length=8, chars=string.ascii_letters + string.digits):
                 return ''.join([choice(chars) for i in range(length)])
             reset_passwd = GenPassword(8)
 
-            User.objects.filter(email=email).delete()
-            User.objects.create_user(id=user_id, username=user_name, password=reset_passwd, email=email)
+            # 设置新密码
+            user.set_password(reset_passwd)
+            user.save()
+            # User.objects.filter(email=email).delete()
+            # User.objects.create_user(id=user_id, username=user_name, password=reset_passwd, email=email)
 
             send_mail(
                 subject="这是新的密码,请使用新的密码登录",
