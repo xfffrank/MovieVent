@@ -13,15 +13,31 @@ from django.utils.translation import gettext_lazy as _
 
 UserModel = get_user_model()
 
+
 class RegisterForm(forms.UserCreationForm):
+
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+
+        self.fields['email'].required = True
 
     class Meta(forms.UserCreationForm.Meta):
         model = User
         fields = {"username", "email"}
+        help_texts = {
+            "email": '必填。',
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        username = self.cleaned_data.get('username')
+        if email and User.objects.filter(email=email).exclude(username=username).exists():
+            raise forms.ValidationError(u'该邮箱已被注册')
+        return email
+
+
 
 from django import forms
-
-
 class PasswordResetForm(forms.Form):
     email = forms.EmailField(label=_("Email"), max_length=254)
 
