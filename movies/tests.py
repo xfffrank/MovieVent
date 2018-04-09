@@ -48,7 +48,7 @@ class CommentTestCase(TestCase):
             poster='test_poster',
         )
 
-        user = User.objects.create(username='test_user', password='123')
+        user = User.objects.create(username='test_user', password='123456')
 
         Comment.objects.create(
             id = 2500,
@@ -66,9 +66,13 @@ class CommentTestCase(TestCase):
         """
         comment = Comment.objects.get(id = 2500)
         user = User.objects.get(username='test_user')
-        self.client.post('/login/', {'username': 'test_user', 'password': '123'})
+        print('已创建用户：', user)
+        res = self.client.login(username='Feng', password='xf5797877')
+        print('登陆状态：', res)
         url = reverse('movies:like_comment')
         response = self.client.post(url, {'comment_id': comment.id, 'user': user})
+        print(response.context)
+
         self.assertEqual(response.status_code, 200)
 
         comment_update = Comment.objects.get(id=2500)

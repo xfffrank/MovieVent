@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+import datetime
+from django.utils import timezone
+
 
 # Create your models here.
 class Movie(models.Model):
@@ -26,12 +29,26 @@ class Movie(models.Model):
     rating = models.DecimalField(default=0.0, decimal_places=1, max_digits=5)
     heat = models.IntegerField(default=0)
 
+    def is_now_playing(self):
+        date = self.release_time.split('(')[0]
+        try:
+            trans_date = datetime.datetime.strptime(date, '%Y-%m-%d')
+        except ValueError:
+            try:
+                trans_date = datetime.datetime.strptime(date, '%Y-%m')
+            except ValueError:
+                trans_date = datetime.datetime.strptime(date, '%Y')
 
-class CommentManager(models.Manager):
-    def create_comment(self, user, movie, text, thumb_ups):
+        now = timezone.now()
+        # 60天内上映的电影
+        return now - datetime.timedelta(days=60) < trans_date < now
 
-        comment = self.create(user_id=user, movie_id=movie, text=text, thumb_ups=thumb_ups)
-        return comment
+# class CommentManager(models.Manager):
+#     def create_comment(self, user, movie, text, thumb_ups):
+#
+#         comment = self.create(user_id=user, movie_id=movie, text=text, thumb_ups=thumb_ups)
+#         return comment
+
 
 class Comment(models.Model):
 

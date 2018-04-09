@@ -17,16 +17,17 @@ def pick(request):
 
 
 def now_playing(request):
-    def recent():
-        # 写一个判断日期的函数
-        pass
+    temp_list = Movie.objects.all()
 
-    movie_list = Movie.objects.order_by('-release_time')[:20] # 加'－'表示逆序
+    np_list = []
+    for movie in temp_list:
+        if movie.is_now_playing():
+            np_list.append(movie)
 
-    for movie in movie_list:
+    for movie in np_list:
         movie.name = movie.name.split(' ')[0]
 
-    return render(request, 'movies/now_playing.html', {'movie_list': movie_list})
+    return render(request, 'movies/now_playing.html', {'movie_list': np_list})
 
 
 def detail(request, movie_id):
@@ -48,7 +49,6 @@ def detail(request, movie_id):
         form = CommentForm(instance=my_comment)
     finally:
         print(has_commented) # test
-
 
     sort = request.GET.get('sort', 'votes')
     if sort == 'votes':
@@ -218,9 +218,20 @@ def index(request):
     # 正在上映
     start_pos_np = (np_page - 1) * 5
     end_pos_np = start_pos_np + 5
-    now_playing = Movie.objects.order_by('-release_time')[start_pos_np:end_pos_np]
-    for movie in now_playing:
+    temp_list = Movie.objects.all()
+
+    np_list = []
+    for movie in temp_list:
+        if movie.is_now_playing():
+            np_list.append(movie)
+
+    for movie in np_list:
         movie.name = movie.name.split(' ')[0]
+
+    try:
+        now_playing_list = np_list[start_pos_np:end_pos_np]
+    except:
+        now_playing_list = np_list[start_pos_np:]
 
     # limit = 5
     # paginator1 = Paginator(now_playing, limit)
@@ -254,7 +265,7 @@ def index(request):
     # print(len(now_playing))
 
     context = {
-        'np_list': now_playing,
+        'np_list': now_playing_list,
         'hot_list': hot_list,
         'rating_list': rating_list,
         'r_page': r_page,
