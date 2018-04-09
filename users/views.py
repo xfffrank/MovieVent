@@ -63,11 +63,11 @@ def user_center(request, user_id):
 
 
 def password_reset_x(request):
-    email = request.POST.get('email')
+    email = request.POST.get('email', '')
 
     print(email)
 
-    if email == None:
+    if email == '':
         return render(request, 'registration/password_reset_form.html')
     else:
         try:
