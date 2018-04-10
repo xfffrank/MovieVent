@@ -110,9 +110,16 @@ def post_comment(request, movie_id):
     return redirect(movie)
 
 
-def del_comment(movie_id, comment_id):
+def del_comment(request, movie_id, comment_id):
+    """
+    :param request: 必须
+    :param movie_id: 要删除的评论所属的电影ID
+    :param comment_id: 要删除的评论ID
+    :return:
+    """
     movie = get_object_or_404(Movie, pk=movie_id)
-
+    print("电影ID：", movie_id) # test
+    print("评论ID：", comment_id) # test
     try:
         comment = get_object_or_404(Comment, pk=comment_id)
     except:

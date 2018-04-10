@@ -16,3 +16,6 @@ static/
 # mac hidden files
 .DS_Store
 
+# classification on mac
+classify&rate/
+
