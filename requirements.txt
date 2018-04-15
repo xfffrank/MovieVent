@@ -1,0 +1,8 @@
+APScheduler==3.5.1
+Django==2.0.3
+jieba==0.39
+numpy==1.14.2
+PyMySQL==0.8.0
+pytz==2018.3
+six==1.11.0
+tzlocal==1.5.1
