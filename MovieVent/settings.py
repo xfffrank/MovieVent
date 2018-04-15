@@ -84,8 +84,7 @@ DATABASES = {
         'NAME': 'Vent', # database name
         'USER': 'abc',
         'PASSWORD': '123',
-        # 'HOST': 'localhost',
-        'HOST': '120.77.155.143',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
