@@ -128,8 +128,6 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 # 设置登陆和注销后重定向的位置
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = 'login/'
