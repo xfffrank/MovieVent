@@ -126,7 +126,11 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+# 储存项目所有静态文件
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATIC_URL = '/static/'
+
 
 # 设置登陆和注销后重定向的位置
 LOGOUT_REDIRECT_URL = '/'
