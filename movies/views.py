@@ -118,8 +118,8 @@ def del_comment(request, movie_id, comment_id):
     :return:
     """
     movie = get_object_or_404(Movie, pk=movie_id)
-    print("电影ID：", movie_id) # test
-    print("评论ID：", comment_id) # test
+    # print("movie ID：", movie_id) # test
+    # print("comment ID：", comment_id) # test
     try:
         comment = get_object_or_404(Comment, pk=comment_id)
     except:
@@ -421,7 +421,7 @@ def subject_search(request):
     search_text = request.GET.get('search_text')
     # 获取索引位置
     start_pos = int(request.GET.get("start_pos", 0))
-    print("起始索引为", start_pos) # test
+    print("start index: ", start_pos) # test
 
     connection = pymysql.connect(
         host='localhost',
