@@ -7,11 +7,15 @@
     <title>登录</title>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/mobi.css/dist/mobi.min.css">
+    <!--使用CDN加速，替换本地css文件-->
+    <link rel="stylesheet" type="text/css" href="http://p77rf7tex.bkt.clouddn.com/Movie_Vent.css">
     <style>
         .errorlist {
             color: red;
         }
     </style>
+    <!--使用外链 icon-->
+    <link rel="icon" href="http://p77rf7tex.bkt.clouddn.com/carrot.png">
 </head>
 <body>
 <div class="flex-center">
@@ -39,6 +43,10 @@
                     <div class="unit-1-3 flex-right"><span><a href="{% url 'users:password_reset_X' %}">忘记密码？</a></span></div>
                 </div>
             </div>
+        </div>
+        <div class="footer">
+            <div>Copyright &copy;<a href="http://www.miitbeian.gov.cn/">粤ICP备17129326号</a></div>
+            <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
         </div>
     </div>
 </div>

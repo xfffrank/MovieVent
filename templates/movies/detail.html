@@ -26,7 +26,7 @@
 
 			<div id="rating" class="info_p3">
 				<p>Vent 评分</p>
-				<h5>{{ movie.rating }}</h5>
+				<h5 style="color:orange;">{{ movie.rating }}</h5>
 			</div>
 		</div>
 
@@ -115,9 +115,9 @@
         {% endfor %}
         <p class="more"><a href="{% url 'movies:all_comments' movie.id %}"> > 更多短评</a></p>
 
-		<div class="footer">
-			<footer>@ 2018 Vent All Rights Reserved</footer>
-		</div>
+		<!--<div class="footer">-->
+			<!--<footer>@ 2018 Vent All Rights Reserved</footer>-->
+		<!--</div>-->
 
 	</div>
 {% endblock main %}
