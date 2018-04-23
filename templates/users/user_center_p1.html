@@ -22,19 +22,25 @@
     <br>
 
     <div class="row test">
-        {% for movie in movie_list %}
-
+        {% for comment in comment_list %}
         <ul class="col-sm-2.4">
             <div class="accord">
                 <li class="poster">
-                    <a href="{{ movie.get_absolute_url }}">
-                        <img src="{{ movie.poster }}">
+                    <a href="{{ comment.movie_id.get_absolute_url }}">
+                        <img src="{{ comment.movie_id.poster }}">
                     </a>
                 </li>
-                <li class="title">
-                    <a href="{{ movie.get_absolute_url }}">{{ movie.name }}</a>
-                    <strong>{{ movie.rating }}</strong>
+                <li class="title" style="padding: 0px;">
+                    <a href="{{ movie.get_absolute_url }}">{{ comment.movie_id.name }}</a>
                 </li>
+                <li>
+                    <strong>{{ comment.movie_id.rating }}</strong>
+                </li>
+                <li style="text-align: center;">
+				<button role="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ comment.text }}" style="cursor: pointer;">
+				  显示评论
+				</button>
+			    </li>
             </div>
         </ul>
         {% empty %}
@@ -58,7 +64,13 @@ $(document).ready(function(){
     //使导航栏相应的部分高亮
     $("#nav_user").addClass("active");
 
-
+    $("[data-toggle=popover]").popover({
+        trigger: 'hover',
+        delay: {
+            show: "300",
+            hide: "100"
+        }
+    });
 
 });
 

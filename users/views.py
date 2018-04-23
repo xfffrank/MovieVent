@@ -51,11 +51,15 @@ def user_center(request, user_id):
     print(logged_in)
 
     comment_list = Comment.objects.filter(user_id=user.id)
-    movie_list = [c.movie_id for c in comment_list]
+    # movie_list = [c.movie_id for c in comment_list]
+
+    for comment in comment_list:
+        comment.movie_id.name = comment.movie_id.name.split(' ')[0]
 
     context = {
         'username': user.username,
-        'movie_list': movie_list,
+        'comment_list': comment_list,
+        # 'movie_list': movie_list,
         'logged_in': logged_in,
     }
 
