@@ -51,7 +51,7 @@
     {% for comment in comment_set %}
     <div> <!-- 影评 -->
         <div class="review_info">
-            <span style="color: CornflowerBlue;">{{ comment.user_id.username }}</span>
+            <span style="color: CornflowerBlue;"><a href="{% url 'users:homepage' comment.user_id.id %}">{{ comment.user_id.username }}</a></span>
             <span>{{ comment.time }}</span>
             <span style="float: right;">
                 <span>{{ comment.thumb_ups }}</span>

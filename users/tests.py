@@ -40,7 +40,6 @@ class UserTestCase(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.context['username'], 'test_user')
 
-
     def test_delete_account(self):
         user = User.objects.get(username='test_user')
         user.set_password('123')
